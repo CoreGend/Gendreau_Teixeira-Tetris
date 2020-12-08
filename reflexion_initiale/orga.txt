@@ -1,0 +1,40 @@
+	     -x-
+	PROJET TETRIS
+	     -x-
+
+Semaine 1 :
+	- planning
+	- structures utilisee (heredite)
+	- interface graphique utilisee
+	- comment actualiser en direct
+	
+	- differents fichiers .cpp, .h ...
+	- fonctions de base
+	(- implementer pour affichage sur console)
+
+Semaine 2 et 3 :
+	- implementer le modele 2D
+	- voir si ca marche
+	- meilleur score local
+
+Semaine 4-5 :
+	| multijoueur, acces reseau, gestion de la latence... hebergement local, meilleur score de la session
+	| 3D, ajout de pieces personnalisees (carre - cube)
+
+Si on n'a pas de retard :
+	| 2e fonctionnalite
+	| 3D en premier => "modpack", "texturepack"
+
+Semaine 6-7 :
+	- rapport, presentation
+
+BIEN PENSER => exceptions, cas d'erreur...
+	    => notepatch (notes de modifications..)
+
+usleep(10 ms) => fget
+deadline debut fevrier => 7-8 semaines
+
+analyse logiciel 2D
+	usage 		ce que le joueur peut faire
+	fonctionnel 	plus detaille fonctiionnalite 
+coeur du sujet def du plateau de jeu

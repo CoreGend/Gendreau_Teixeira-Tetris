@@ -1,0 +1,51 @@
+STRUCTURES
+
+Class newClass
+	int a, int b...
+	
+	newClass: a(0), b(0)
+
+
+[nom structure]
+	+ arguments
+	| fonctions possibles
+
+plateau :
+	tableau n*m [0,0,0...,0]
+		| fonction pour convertir "ligne\colonne" en coordonnee
+	tableau(n*tableau m) [[ligne 1], [ligne 2],...]
+
+[part_piece] \\petit carre qui compose les pieces (4 par piece en 2D)
+	+ couleur
+	+ coordonnee
+	(| effacer ?)
+	| mouvement
+	| coordonnee au centre
+
+
+[piece] (generique)
+	+ centre, [autres parties]
+	| rotation 		      [ marche pour tout ]
+	| mouvement 		      [ identique à toutes les classes ]
+
+
+[piece specialisee] // avoir la forme
+	| generer
+
+
+stockage info tableau ?
+	premiere idee => 1 tableau de booleen (jeu en lui meme) || 1 tableau structure/classe [part_piece] OU de couleurs (affichage)
+	deuxième idée => 1 seul tableau, NULL si pas de piece, adresse si yen a une
+		PROBLEME : dans ce cas, lorsque 1 ligne s'efface, il faut changer toutes les adresses
+			   répétition de l'adresse DONC on fait juste couleur ?
+		mieux d'avoir que des pieces ou osef
+	troisieme idée => 1 tableau contenant l'indice de la couleur de la pièce (lisibilité du code ?)
+ 
+à voir comment fonctionne la couleur => si c'est un tableau [r, g, b] couteux en mémoire
+				     => int ( r*255*255 + g * 255 + b ) couleur;
+				     => liste des couleurs de piece ?
+
+struct piece piece_t = ...
+generer aleatoirement piece :
+	toutes pieces dans un tableau [piece_t ...]
+	tirage aleatoire entre 0 et size_tableau puis orientation

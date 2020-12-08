@@ -1,0 +1,18 @@
+QT
+	-> beaucoup de documentation
+	-> surement du code à récupérer pour éviter de perdre du temps sur l'interface graphique
+		et en gagner sur les fonctionnalités
+	
+	-> pas besoin d'énormément de ressource donc pas de pb si c'est pas le plus rapide
+	
+
+Dear ImGUI
+	-> rapide
+	-> portable
+	-> pas trop "intrusif"
+
+
+Moteur de jeu possible à prendre
+
+"pause"
+	temps depuis dernier affichage

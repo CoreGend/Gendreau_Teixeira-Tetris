@@ -1,0 +1,22 @@
+
+		FICHIERS
+
+main.cpp
+	=> contenir la boucle principale qui correspond à la partie
+structure.(c/h)pp
+	=> contenir les classes/structures, leurs définitions...
+game.hpp
+	=> contient toutes les fonctions propre au jeu (check fin, ligne, score...)
+score.txt
+	=> en mémoire les scores
+
+
+( à plus long terme => rendre le jeu personnalisable )
+config.(ext?)
+	=> contient les différents paramètres (vitesse de jeu, ce qui est réglable => à + long terme pack de couleurs...)
+
+commande.(ext?)
+	=> contient les commandes de jeu (zqsd pour mouvement, fleches pour rotation... garde en mémoire pour éviter de redéfinir à chaque partie)
+
+makefile ?
+	=> permet de faire automatiser la compilation // installeur du jeu

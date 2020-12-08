@@ -1,0 +1,46 @@
+		-x-
+	usage = ce que le joueur peut faire
+		-x-
+
+lorsqu'il est sur le menu principal
+	-> (reprendre la partie ?)
+	-> lancer une nouvelle partie
+	-> consulter l'historique des scores et les meilleurs scores			|| dernieres parties | meilleurs scores ||
+											|| score & tps de jeu| score & tps de jeu||
+	-> paramètres
+		- controle
+		- graphique
+		- musique
+	-> sortir du jeu
+
+Nouvelle partie
+au lancement
+	-> choisir un nom
+	-> choisir la difficulté (// le terrain qu'il veut )
+	-> lancer
+	-> revenir au menu principal
+en jeu
+	-> bouton de pause
+	-> commandes en jeu pour jouer
+		UI
+		- score/meilleur score
+		- tps de jeu ?
+		- rappel commandes
+		- 2 prochaines pièces
+menu pause
+	-> paramètres
+	-> retour au menu principal
+	-> quitter le jeu
+	UI
+		- score/meilleur score
+menu win/lose
+	-> retour au menu principal
+	UI
+		- win ou lose
+		- score/meilleur score
+		- tps de jeu ?
+
+Evolutions à voir après :
+	auto-save ?
+	2D/3D
+	multi...
