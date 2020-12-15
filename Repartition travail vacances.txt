@@ -1,0 +1,19 @@
+Pour la prochaine seance (05/01/2020):
+	Prototype
+
+-> toutes les classes
+-> toutes les pieces du jeu de base
+-> tous les menus + parametres
+-> interface graphique 2D (Qt)
+
+Repartition :
+Quentin  : classes et pieces, boucle principale
+Corentin : menus, interface graphique, changement de parametres (controle...)
+		stockage des sauvegardes en clair (pas de question de securite encore)
+
+Celui qui se sent chaud pour le faire : mettre un peu plus au propre les analyses et choix realises
+
+Si on a le temps :
+	- voir comment faire du multijoueur/en reseau
+	- voir comment passer en 3D
+Pour choisir ce qu'on prefere
