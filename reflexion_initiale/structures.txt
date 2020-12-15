@@ -35,7 +35,7 @@ plateau :
 
 stockage info tableau ?
 	premiere idee => 1 tableau de booleen (jeu en lui meme) || 1 tableau structure/classe [part_piece] OU de couleurs (affichage)
-	deuxième idée => 1 seul tableau, NULL si pas de piece, adresse si yen a une
+	deuxième idée => 1 seul tableau,---------------
 		PROBLEME : dans ce cas, lorsque 1 ligne s'efface, il faut changer toutes les adresses
 			   répétition de l'adresse DONC on fait juste couleur ?
 		mieux d'avoir que des pieces ou osef

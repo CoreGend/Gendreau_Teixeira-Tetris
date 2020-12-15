@@ -1,0 +1,107 @@
+tableau de pointeurs;
+	taille de base : 10*24 => 200 cases avec les 4 premieres lignes invisibles => depassement ?
+
+On perd :
+	- si on fait depasser une piece du plateau
+	- si les pieces ne peuvent plus apparaitre
+Classes:
+
+struct tableau my_table;
+my_table.init();
+
+tableau
+parametres :
+	entier longueur, largeur
+	booleen 'partie finie'
+
+methodes :
+	constructeur avec la taille : fait appel a la fonction initialisation
+
+	initialisation
+		allocation memoire + remplissage initial (pointeurs NULL partout)
+
+	(descendre ?
+		fait descendre toutes les lignes )
+
+	reconnaissance de ligne
+
+	effacement de ligne
+		efface une ligne + appel a descendre OU inclut une descente
+
+	reconnaissance de colonne
+		on verifie que la ligne du haut-3 (4 lignes de depassement) 
+		ne contient que des vecteurs nuls OU mouvants
+		actualise partie finie
+	
+	// convertir coordonee a voir selon structure choisie - liste de liste ou une liste
+	//	convertit une coordonnee 'brute' en ligne/colonne ?
+	//		case 156 => x = y =	
+
+reconnaissance de ligne ?
+OUI : effacement de ligne puis descente
+
+-> partie de piece fixe
+parametres :
+	coordonee
+	booleen mouvant //caracterise si elle est mobile ou pas
+	couleur
+
+Methodes :
+	Constructeur avec une position et une couleur
+	Changement de position
+		met a jour sa coordonnee et la place de son pointeur dans le tableau
+	Recuperer coordonnee
+		renvoie sa coordonnee dans le tableau (pour rotation ou mouvement)
+	Changement de couleur
+		change de couleur (effacement de ligne pour le style, un petit clignotement)
+	
+
+-> piece
+parametres :
+	int nbDePiece
+	vecteur [Piece au centre, autres pieces]
+	
+methodes :
+	- nouvelle piece
+		definit type (= couleur), cree la piece au centre et les pieces autour en 
+		fonction d'un package contenu dans un fichier annexe
+	- mouvement
+		appelee tous les n-actualisations => on peut tourner 4 fois la pieces avant 
+qu'elle descende
+		si une case non vide en dessous d'une de ses parties, elle se bloque
+	- rotation
+		pour chaque piece elle compare la coordonnee de la piece au centre avec la piece courante
+		effectue la rotation
+		verifie qu'elle a la place de tourner
+
+
+
+
+
+
+-> menus
+deplacement_dans_menu()
+	//dans un menu on navigue parmis les options
+
+changer_menu(void (*nouveau_menu)(void))
+	nouveau_menu()
+	//on change de menu
+
+quitter_jeu()
+	//quitte le jeu
+
+menu_pause
+menu_principal
+menu_score
+ecran_fin
+ecran_jeu
+
+menu_parametre
+	-> changer_parametre
+menu_lancement
+	-> changer_joueur
+	-> changer diff
+
+
+
+/* mieux pour application du cours + lisibilite + modification a posteriori */

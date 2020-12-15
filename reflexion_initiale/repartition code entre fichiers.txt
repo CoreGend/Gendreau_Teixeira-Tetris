@@ -2,14 +2,15 @@
 		FICHIERS
 
 main.cpp
-	=> contenir la boucle principale qui correspond à la partie
+	=> contenir la boucle principale qui gere les echanges entre les menus et la boucle de jeu
 structure.(c/h)pp
 	=> contenir les classes/structures, leurs définitions...
 game.hpp
 	=> contient toutes les fonctions propre au jeu (check fin, ligne, score...)
 score.txt
 	=> en mémoire les scores
-
+menus.cpp
+	=> contient le code des differents menus
 
 ( à plus long terme => rendre le jeu personnalisable )
 config.(ext?)
@@ -20,3 +21,32 @@ commande.(ext?)
 
 makefile ?
 	=> permet de faire automatiser la compilation // installeur du jeu
+
+
+
+
+
+MAIN
+	SOIT
+		Une boucle while(1) qui englobe plusieurs boucles while(menu = K) 
+		qui correspondent aux differents menus
+
+tant que !EXIT
+	si menu_actif == principal
+		faire ...
+	si menu_actif == jeu
+		faire ...
+
+	SOIT
+		Une boucle while(1) dedans on a plusieurs appels aux fonctions definis dans les menus
+
+
+int res = menu();
+
+if(res = reg)
+	reglages()
+
+jeu = boucle
+	tant que c'est pas fini ET qu'on veut pas quitter
+		repete
+		SI on demande a quitter la partie
