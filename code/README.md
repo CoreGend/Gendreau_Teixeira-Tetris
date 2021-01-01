@@ -9,4 +9,4 @@
 
 # Ce qui ne fonctionne tout à fait (ce que j'essayais de corriger en dernier)
   les pièces semblent pouvoir remonter le tableau par la gauche (elle sort a gauche et revient a droite une ligne au dessus) mais en faisant ça elle arrête de bouger avant de toucher le sol...
-  
+  En gros j'en suis à la phase où faut tester que tout marche comme prévu quand on lance une partie.
