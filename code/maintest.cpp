@@ -1,6 +1,3 @@
-#include <iostream>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "tableau.hpp"
 #include "part_piece.hpp"
 #include "piece.hpp"

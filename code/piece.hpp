@@ -1,11 +1,8 @@
 #pragma once
-#include <vector>
-#include <iostream>
+#include "includers.h"
 #include "part_piece.hpp"
 #include "tableau.hpp"
-#include <ctime>
-#include <cstdlib>
-#include <stdio.h>
+
 
 class piece
 {
@@ -15,9 +12,7 @@ class piece
         int couleur;
         std::vector<part_piece> parts;
         enum Nom_piece
-        {
-            I, O, L, J, Z, S
-        };
+        { I, O, L, J, Z, S };
 
     public:
         piece(): nbDePiece(4)

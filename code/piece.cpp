@@ -1,6 +1,4 @@
 #include "piece.hpp"
-#include <cstring>
-
 
 int piece::getndDePiece() const {return nbDePiece;};
 int piece::getnum_piece() const {return num_piece;};
@@ -173,8 +171,8 @@ bool piece::place_libre(tableau tab, int lig, int col)
     while (i<nbDePiece && libre)
     {
         int couleur_voisine = tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur();
-        if (couleur_voisine != 0 && couleur_voisine != parts[i].getcouleur()
-        || (parts[i].getligne()+lig >= tab.getlongueur() || parts[i].getcolonne()+col >= tab.getlargeur()))
+        if (couleur_voisine != 0 && (couleur_voisine != parts[i].getcouleur()
+        || (parts[i].getligne()+lig >= tab.gethauteur() || parts[i].getcolonne()+col >= tab.getlargeur())))
             {
                 std::cout << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur() << std::endl;
                 libre = 0;

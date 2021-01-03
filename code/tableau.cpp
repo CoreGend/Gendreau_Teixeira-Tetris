@@ -1,10 +1,7 @@
-#include <iostream>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "tableau.hpp"
 #include "part_piece.hpp"
 
-int tableau::getlongueur() const {return this->longueur;}
+int tableau::gethauteur() const {return this->hauteur;}
 int tableau::getlargeur() const {return this->largeur;}
 bool tableau::getpartie_finie() {return this->partie_finie;}
 std::vector<part_piece> tableau::getliste() {return this->liste;}
@@ -21,7 +18,7 @@ part_piece tableau::operator () (int i, int j) const
 
 void tableau::affichage()
 {
-    for (int i=0; i<longueur; i++)
+    for (int i=0; i<hauteur; i++)
     {
         for (int j=0; j<largeur; j++)
         {
@@ -45,7 +42,7 @@ int tableau::reconnaissance_ligne()
 {
     //Renvoie l'indice de la ligne pleine si elle existe, -1 sinon.
     //Ne detecte qu'une seule ligne, il faudra donc rappeler la fonction jusqu'à ce qu'elle ne détecte plus rien...
-    for (int i=0; i<longueur; i++)
+    for (int i=0; i<hauteur; i++)
     {
         int j=0;
         int ligne_pleine = 1;

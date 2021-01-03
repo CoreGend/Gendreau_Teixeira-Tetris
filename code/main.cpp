@@ -1,20 +1,26 @@
-#include <iostream>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "tableau.hpp"
 #include "part_piece.hpp"
 #include "piece.hpp"
-#include <cstdlib>
-#include <stdio.h>
-#include <string>
+#include "jeu.h"
+
 
 void saut()
 {
     std::cout << std::endl;
 }
 
-int main()
+jeu* onJoue;
+
+int main(int argc, char* argv[])
 {
+    QApplication app(argc, argv);
+
+    onJoue = new jeu();
+    onJoue->show();
+    onJoue->afficherFenetreJeu();
+
+    return app.exec();
+
     /* Fait une partie toute seule de manière aléatoire. (mais assez stupidement quand même)
     tableau* tab = new tableau(6,6);
     tab->affichage();
@@ -64,6 +70,7 @@ int main()
 
 
     /* partie jouable pour 1 joueur. */
+    /*
     tableau* tab = new tableau(6,6);
     tab->affichage();
     int nb_it = 0;
@@ -106,4 +113,5 @@ int main()
         std::cout << "fin de la partie !!\n";
     }
     return 0;
+*/
 }

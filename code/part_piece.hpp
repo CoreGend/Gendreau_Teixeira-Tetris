@@ -1,4 +1,5 @@
 #pragma once
+#include "includers.h"
 
 class part_piece
 {
@@ -7,8 +8,14 @@ class part_piece
         bool mobile;
 
     public:
-        part_piece(int coul): ligne(0), colonne(0), couleur(coul), mobile(true){};
-        part_piece(int lig, int col, int coul): ligne(lig), colonne(col), couleur(coul), mobile(true){};
+        part_piece(int coul):
+            ligne(0), colonne(0), couleur(coul), mobile(true)
+        {
+        };
+        part_piece(int lig, int col, int coul):
+            ligne(lig), colonne(col), couleur(coul), mobile(true)
+        {
+        };
 
         int getligne();
         int getcolonne();
