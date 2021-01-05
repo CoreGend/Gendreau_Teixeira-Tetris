@@ -145,12 +145,16 @@ bool piece::init_piece_standard(tableau* tab)
 void piece::_intit_(tableau* tab)
 {
     parts = liste_piece(num_piece, identifiant);
+    bool init_standard_possible = init_piece_standard(tab);
     for (int i=0; i<nbDePiece; i++)
     {
         parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2));
-        if (init_piece_standard(tab))
+        if (init_standard_possible)
+        {
             parts[i].setligne(parts[i].getligne()+1);
+            (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
             //(*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
+        }
         else
         {
  //           qDebug() << "Special init\n";
