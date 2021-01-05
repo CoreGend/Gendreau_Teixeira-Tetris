@@ -17,14 +17,12 @@ class piece
     public:
         piece(): nbDePiece(4)
         {
-            srand(time(0));
             num_piece = rand()%6;
             //num_piece = 1;
             identifiant = rand()%1000 +1;
         };
         piece(int id): nbDePiece(4), identifiant(id)
         {
-            srand(time(0));
             num_piece = rand()%6;
             //num_piece = 1;
         };

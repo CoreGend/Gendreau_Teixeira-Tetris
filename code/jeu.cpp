@@ -19,7 +19,7 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
 void jeu::effacerLigne()
 {
     int ligne_pleine = tab->reconnaissance_ligne();
-    qDebug() << "ligne reconnue : " << ligne_pleine;
+//    qDebug() << "ligne reconnue : " << ligne_pleine;
     while (ligne_pleine != -1) //tant qu'il y a une ligne pleine
     {
         tab->effacement_ligne(ligne_pleine);
@@ -37,14 +37,6 @@ void jeu::keyPressEvent(QKeyEvent* event)
         pieceActive.mouvement(tab, "droite");
     else if (event->key() == Qt::Key_Down)
         pieceActive.mouvement(tab, "bas");
-
-    if(pieceActive.getpieces()[0].getmobile() == false){
-            effacerLigne();
-            afficherTableau();
-            tab->verif_fin_partie();
-            iteration();
-            qDebug() << "Pièce touchée !";
-    }
 }
 
 
@@ -165,6 +157,21 @@ void jeu::afficherFenetreJeu()
         }
     }
 }
+void jeu::new_tick()
+{
+    iter++;
+    if(iter == 20)
+    {
+        pieceActive.mouvement(tab, "bas");
+        iter = 0;
+    }
+    if(pieceActive.getpieces()[0].getmobile() == false){
+            effacerLigne();
+            tab->verif_fin_partie();
+            pieceActive = genererPiece();
+    }
+    afficherTableau();
+}
 
 void jeu::start()
 {
@@ -179,6 +186,6 @@ void jeu::iteration()
     pieceActive = genererPiece();
     afficherTableau();
     QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(afficherTableau()));
-    timer->start(200);
+    connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
+    timer->start(50);
 }

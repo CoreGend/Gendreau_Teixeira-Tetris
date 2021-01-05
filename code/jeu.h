@@ -14,15 +14,18 @@ public:
     piece genererPiece();
     void effacerLigne();
     void iteration();
+    void afficherTableau();
     void keyPressEvent(QKeyEvent* event);
 
     QGraphicsScene* scene;
 
 public slots:
     void start();
-    void afficherTableau();
+    void new_tick();
+
 
 private :
+    int iter = 0;
     tableau* tab;
     piece pieceActive;
     QGraphicsRectItem* pieceAffichees[220];
