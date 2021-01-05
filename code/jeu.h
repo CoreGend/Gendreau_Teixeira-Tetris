@@ -21,6 +21,7 @@ public:
 public slots:
     void start();
     void afficherTableau();
+
 private :
     int iactif;
     tableau* tab;

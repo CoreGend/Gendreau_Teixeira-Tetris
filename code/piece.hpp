@@ -9,7 +9,7 @@ class piece
     private:
         int nbDePiece;
         int num_piece;
-        int couleur;
+        int identifiant;
         std::vector<part_piece> parts;
         enum Nom_piece
         { I, O, L, J, Z, S };
@@ -19,21 +19,21 @@ class piece
         {
             srand(time(0));
             num_piece = rand()%6;
-            couleur = rand()%9 +1;
+            identifiant = rand()%1000 +1;
         };
-        piece(int coul): nbDePiece(4), couleur(coul)
+        piece(int id): nbDePiece(4), identifiant(id)
         {
             srand(time(0));
             num_piece = rand()%6;
         };
-        piece(int num, int coul): nbDePiece(4), num_piece(num), couleur(coul) {};
+        piece(int num, int id): nbDePiece(4), num_piece(num), identifiant(id) {};
 
         int getndDePiece() const;
         int getnum_piece() const;
-        int getcouleur() const;
+        int getidentifiant() const;
         std::vector<part_piece> getpieces() const;
 
-        void setcouleur(int coul);
+        void setidentifiant(int id);
         void setpieces(std::vector<part_piece> blocs);
 
         void _intit_(tableau* tab);

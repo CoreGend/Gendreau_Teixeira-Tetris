@@ -36,7 +36,10 @@ void jeu::keyPressEvent(QKeyEvent* event)
     else if (event->key() == Qt::Key_Down)
         pieceActive.mouvement(tab, "bas");
 
-    if(pieceActive.getpieces()[0].getligne() == tab->gethauteur()-1){
+    if(pieceActive.getpieces()[0].getligne() == tab->gethauteur()-1 ){
+      // pieceActive.getpieces()[1].getligne() == tab->gethauteur()-1 ||
+     //  pieceActive.getpieces()[2].getligne() == tab->gethauteur()-1 ||
+    //   pieceActive.getpieces()[3].getligne() == tab->gethauteur()-1){
             effacerLigne();
             afficherTableau();
             tab->verif_fin_partie();
@@ -69,18 +72,39 @@ void jeu::afficherTableau()
     {
         for(int j=0; j<largeur; ++j)
         {
-            if(tab->getliste()[(22-1-i)*10+j].getcouleur() != 0)
+            QBrush brush; brush.setStyle(Qt::SolidPattern);
+            switch( (tab->getliste()[i*10+j]).getcouleur())
             {
-                QBrush brush; brush.setColor(Qt::red); brush.setStyle(Qt::SolidPattern);
-                pieceAffichees[(22-1-i)*10+j]->setBrush(brush);
-          //      scene->addItem(pieceAffichees[i*10+j]);
-            }
-            else
+            case 0:
+                brush.setColor(Qt::cyan);
+                break;
+            case 1:
+                brush.setColor(Qt::yellow);
+                break;
+       //     case 2:
+       //         brush.setColor(Qt::darkMagenta);
+       //         break;
+            case 2:
             {
-                QBrush brush; brush.setColor(Qt::white); brush.setStyle(Qt::SolidPattern);
-                pieceAffichees[(22-1-i)*10+j]->setBrush(brush);
-          //      scene->addItem(pieceAffichees[i*10+j]);
+                QColor color;
+                color.setRgb(255,119,0,255);
+                brush.setColor(color);
+                break;
             }
+            case 3:
+                brush.setColor(Qt::blue);
+                break;
+            case 4:
+                brush.setColor(Qt::red);
+                break;
+            case 5:
+                brush.setColor(Qt::green);
+                break;
+            default:
+                brush.setColor(Qt::white);
+            }
+
+            pieceAffichees[i*10+j]->setBrush(brush);
         }
     }
 }
@@ -142,8 +166,9 @@ void jeu::afficherFenetreJeu()
             int posx = j*20+300; int posy = i*20+80;
             pieceAffichees[i*10+j]->setRect(posx, posy, 20,20);
 
-            QBrush brush; brush.setColor(Qt::white); brush.setStyle(Qt::SolidPattern);
+            QBrush brush; brush.setColor(Qt::white); brush.setStyle(Qt::NoBrush);
             pieceAffichees[i*10+j]->setBrush(brush);
+          //  pieceAffichees[i*10+j]->setPen(Qt::NoPen);
             scene->addItem(pieceAffichees[i*10+j]);
         }
     }

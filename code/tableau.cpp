@@ -23,7 +23,7 @@ void tableau::affichage()
     {
         for (int j=0; j<largeur; j++)
         {
-            qDebug() << (*this)(i,j).getcouleur() << " ";
+            qDebug() << (*this)(i,j).getidentifiant() << " ";
         }
    //     std::cout << std::endl;
     }
@@ -81,7 +81,7 @@ void tableau::verif_fin_partie()
     int j = 0;
     while (j<largeur && !partie_finie)
     {
-        if ((*this)(1,j).getcouleur() != 0) partie_finie = 1;
+        if ((*this)(1,j).getidentifiant() != 0) partie_finie = 1;
         j++;
     }
 };

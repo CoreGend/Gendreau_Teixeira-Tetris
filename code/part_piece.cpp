@@ -9,7 +9,10 @@ int part_piece::getligne() {
 int part_piece::getcolonne() {
     return this->colonne;
 }
-int part_piece::getcouleur() {
+int part_piece::getidentifiant() {
+    return this->identifiant;
+}
+int part_piece::getcouleur(){
     return this->couleur;
 }
 int part_piece::getmobile() {
@@ -22,7 +25,10 @@ void part_piece::setligne(int lig) {
 void part_piece::setcolonne(int col) {
     colonne = col;
 }
-void part_piece::setcouleur(int coul) {
+void part_piece::setidentifiant(int id) {
+    identifiant = id;
+}
+void part_piece::setcouleur(int coul){
     couleur = coul;
 }
 void part_piece::setmobile(bool mob) {

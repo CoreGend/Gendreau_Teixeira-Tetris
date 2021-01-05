@@ -19,6 +19,7 @@
 #include <QApplication>
 //B
 //C
+#include <QColor>
 //D
 #include <QDebug>
 //E

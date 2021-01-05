@@ -3,13 +3,13 @@
 
 int piece::getndDePiece() const {return nbDePiece;};
 int piece::getnum_piece() const {return num_piece;};
-int piece::getcouleur() const {return couleur;};
+int piece::getidentifiant() const {return identifiant;};
 std::vector<part_piece> piece::getpieces() const {return parts;};
 
-void piece::setcouleur(int coul) {couleur = coul;};
+void piece::setidentifiant(int id) {identifiant = id;};
 void piece::setpieces(std::vector<part_piece> blocs) {parts = blocs;};
 
-std::vector<part_piece> liste_piece(int num, int couleur)
+std::vector<part_piece> liste_piece(int num, int identifiant)
 {
     /* fonctionne pour des pièces constituées de 4 parties de pièces seuelemnt pour le moment. */
 
@@ -18,10 +18,15 @@ std::vector<part_piece> liste_piece(int num, int couleur)
     part_piece* p3 = (part_piece*) malloc(sizeof(part_piece));
     part_piece* p4 = (part_piece*) malloc(sizeof(part_piece));
 
-    p1->setcouleur(couleur);
-    p2->setcouleur(couleur);
-    p3->setcouleur(couleur);
-    p4->setcouleur(couleur);
+    p1->setidentifiant(identifiant);
+    p2->setidentifiant(identifiant);
+    p3->setidentifiant(identifiant);
+    p4->setidentifiant(identifiant);
+
+    p1->setcouleur(num);
+    p2->setcouleur(num);
+    p3->setcouleur(num);
+    p4->setcouleur(num);
 
     p1->setmobile(true);
     p2->setmobile(true);
@@ -104,33 +109,33 @@ bool piece::init_piece_standard(tableau* tab)
         case 1:
             // Pièce 2 : "O"
             for (int i=3; i>1; i--)
-                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getcouleur() != 0)
+                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = 0;
             break;
         
         case 2:
             // Pièce 3 : "L"
-            if ((*tab)(parts[0].getligne(), parts[0].getcolonne()).getcouleur() != 0)
+            if ((*tab)(parts[0].getligne(), parts[0].getcolonne()).getidentifiant() != 0)
                 esp_libre = 0;
             break;
 
         case 3:
             // Pièce 4 : "J"
-            if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getcouleur() != 0)
+            if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
                 esp_libre = 0;
             break;
 
         case 4:
             // Pièce 5 : "Z"
             for (int i=3; i>1; i--)
-                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getcouleur() != 0)
+                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = 0;
             break;
 
         case 5:
             // Pièce 6 : "S"
             for (int i=0; i<3; i++)
-                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getcouleur() != 0)
+                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = 0;
             break;
     }
@@ -139,7 +144,7 @@ bool piece::init_piece_standard(tableau* tab)
 
 void piece::_intit_(tableau* tab)
 {
-    parts = liste_piece(num_piece, couleur);
+    parts = liste_piece(num_piece, identifiant);
     for (int i=0; i<nbDePiece; i++)
     {
         parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2));
@@ -147,7 +152,7 @@ void piece::_intit_(tableau* tab)
             (*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
         else
         {
-            qDebug() << "Special init\n";
+ //           qDebug() << "Special init\n";
             (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
         }
         //std::cout << "piece placee en " << parts[i].getligne()<< "," << parts[i].getcolonne() << std::endl;
@@ -171,11 +176,11 @@ bool piece::place_libre(tableau tab, int lig, int col)
     int i=0;
     while (i<nbDePiece && libre)
     {
-        int couleur_voisine = tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur();
-        if (couleur_voisine != 0 && (couleur_voisine != parts[i].getcouleur()
-        || (parts[i].getligne()+lig >= tab.gethauteur() || parts[i].getcolonne()+col >= tab.getlargeur())))
+        int identifiant_voisine = tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
+        if ( (identifiant_voisine != 0 && identifiant_voisine != parts[i].getidentifiant() )
+        || parts[i].getligne()+lig >= tab.gethauteur() || parts[i].getcolonne()+col >= tab.getlargeur() )
             {
-                qDebug() << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur();
+                qDebug() << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
                 libre = 0;
             }
         i++;
@@ -189,7 +194,7 @@ void piece::mouvement(tableau* tab, const char* direction)
     {
         if (place_libre(*tab, 0, -1))
         {
-            qDebug() << "deplacement de piece vers la gauche :\n";
+  //          qDebug() << "deplacement de piece vers la gauche :\n";
             gauche(tab);
         }
         else
@@ -201,7 +206,7 @@ void piece::mouvement(tableau* tab, const char* direction)
     {
         if (place_libre(*tab, 0, 1))
         {
-            qDebug() << "deplacement de piece vers la droite :\n";
+ //           qDebug() << "deplacement de piece vers la droite :\n";
             droite(tab);
         }
         else
@@ -213,7 +218,7 @@ void piece::mouvement(tableau* tab, const char* direction)
     {
         if (place_libre(*tab, 1, 0))
         {
-            qDebug() << "deplacement de piece vers le bas :\n";
+  //          qDebug() << "deplacement de piece vers le bas :\n";
             descend(tab);
         }
         else
