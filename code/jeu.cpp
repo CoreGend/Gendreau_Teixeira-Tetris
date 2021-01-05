@@ -19,9 +19,11 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
 void jeu::effacerLigne()
 {
     int ligne_pleine = tab->reconnaissance_ligne();
+    qDebug() << "ligne reconnue : " << ligne_pleine;
     while (ligne_pleine != -1) //tant qu'il y a une ligne pleine
     {
         tab->effacement_ligne(ligne_pleine);
+        ligne_pleine = tab->reconnaissance_ligne();
         qDebug() << "lignes effacees";
     }
 }
@@ -36,16 +38,6 @@ void jeu::keyPressEvent(QKeyEvent* event)
     else if (event->key() == Qt::Key_Down)
         pieceActive.mouvement(tab, "bas");
 
-    if(pieceActive.getpieces()[0].getligne() == tab->gethauteur()-1 ){
-      // pieceActive.getpieces()[1].getligne() == tab->gethauteur()-1 ||
-     //  pieceActive.getpieces()[2].getligne() == tab->gethauteur()-1 ||
-    //   pieceActive.getpieces()[3].getligne() == tab->gethauteur()-1){
-            effacerLigne();
-            afficherTableau();
-            tab->verif_fin_partie();
-            iteration();
-            qDebug() << "Bord touché !";
-    }
     if(pieceActive.getpieces()[0].getmobile() == false){
             effacerLigne();
             afficherTableau();
