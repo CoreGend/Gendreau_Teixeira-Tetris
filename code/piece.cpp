@@ -149,7 +149,8 @@ void piece::_intit_(tableau* tab)
     {
         parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2));
         if (init_piece_standard(tab))
-            (*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
+            parts[i].setligne(parts[i].getligne()+1);
+            //(*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
         else
         {
  //           qDebug() << "Special init\n";
