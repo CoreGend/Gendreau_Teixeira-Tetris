@@ -1,5 +1,6 @@
 #include "tableau.hpp"
 #include "part_piece.hpp"
+#include "includers.h"
 
 int tableau::gethauteur() const {return this->hauteur;}
 int tableau::getlargeur() const {return this->largeur;}
@@ -22,9 +23,9 @@ void tableau::affichage()
     {
         for (int j=0; j<largeur; j++)
         {
-            std::cout << (*this)(i,j).getcouleur() << " ";
+            qDebug() << (*this)(i,j).getcouleur() << " ";
         }
-        std::cout << std::endl;
+   //     std::cout << std::endl;
     }
 };
 

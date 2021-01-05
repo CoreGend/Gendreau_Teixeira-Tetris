@@ -1,4 +1,5 @@
 #include "piece.hpp"
+#include "includers.h"
 
 int piece::getndDePiece() const {return nbDePiece;};
 int piece::getnum_piece() const {return num_piece;};
@@ -85,7 +86,7 @@ std::vector<part_piece> liste_piece(int num, int couleur)
             blocs = {*p1, *p2, *p3, *p4};
             break;
         default:
-            std::cout << "Numero de piece non connu\n";
+            qDebug() << "Numero de piece non connu\n";
             blocs = {-1,-1,-1,-1};
     }
     return blocs;
@@ -146,7 +147,7 @@ void piece::_intit_(tableau* tab)
             (*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
         else
         {
-            std::cout << "Special init\n";
+            qDebug() << "Special init\n";
             (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
         }
         //std::cout << "piece placee en " << parts[i].getligne()<< "," << parts[i].getcolonne() << std::endl;
@@ -174,7 +175,7 @@ bool piece::place_libre(tableau tab, int lig, int col)
         if (couleur_voisine != 0 && (couleur_voisine != parts[i].getcouleur()
         || (parts[i].getligne()+lig >= tab.gethauteur() || parts[i].getcolonne()+col >= tab.getlargeur())))
             {
-                std::cout << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur() << std::endl;
+                qDebug() << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getcouleur();
                 libre = 0;
             }
         i++;
@@ -188,36 +189,36 @@ void piece::mouvement(tableau* tab, const char* direction)
     {
         if (place_libre(*tab, 0, -1))
         {
-            std::cout << "deplacement de piece vers la gauche :\n";
+            qDebug() << "deplacement de piece vers la gauche :\n";
             gauche(tab);
         }
         else
         {
-            std::cout << "la piece ne peut pas bouger...\n";
+            qDebug() << "la piece ne peut pas bouger...\n";
         }
     }
     else if (!strcmp(direction,"droite"))
     {
         if (place_libre(*tab, 0, 1))
         {
-            std::cout << "deplacement de piece vers la droite :\n";
+            qDebug() << "deplacement de piece vers la droite :\n";
             droite(tab);
         }
         else
         {
-            std::cout << "la piece ne peut pas bouger...\n";
+            qDebug() << "la piece ne peut pas bouger...\n";
         }
     }
     else if (!strcmp(direction,"bas"))
     {
         if (place_libre(*tab, 1, 0))
         {
-            std::cout << "deplacement de piece vers le bas :\n";
+            qDebug() << "deplacement de piece vers le bas :\n";
             descend(tab);
         }
         else
         {
-            std::cout << "la piece se pose\n";
+            qDebug() << "la piece se pose\n";
             stop();
         }
     }

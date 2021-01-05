@@ -36,17 +36,20 @@ void jeu::keyPressEvent(QKeyEvent* event)
     else if (event->key() == Qt::Key_Down)
         pieceActive.mouvement(tab, "bas");
 
-    QList<QGraphicsItem *> colliding_items = pieceAffichees[iactif]->collidingItems();
-    for (int i=0; i<colliding_items.size(); ++i)
-    {
-        if(typeid(colliding_items[i]) == typeid(part_piece)){
+    if(pieceActive.getpieces()[0].getligne() == tab->gethauteur()-1){
             effacerLigne();
             afficherTableau();
             tab->verif_fin_partie();
             iteration();
-        }
+            qDebug() << "Bord touché !";
     }
-
+    if(pieceActive.getpieces()[0].getmobile() == false){
+            effacerLigne();
+            afficherTableau();
+            tab->verif_fin_partie();
+            iteration();
+            qDebug() << "Pièce touchée !";
+    }
 }
 
 
