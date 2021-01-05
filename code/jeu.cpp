@@ -1,6 +1,5 @@
 #include "jeu.h"
 #include "bouton.h"
-#include "afficheur.h"
 #include "zoneJeu.h"
 #include "tableau.hpp"
 #include "piece.hpp"
@@ -19,13 +18,23 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
 void jeu::effacerLigne()
 {
     int ligne_pleine = tab->reconnaissance_ligne();
+    int nbLigneEff = 0;
 //    qDebug() << "ligne reconnue : " << ligne_pleine;
     while (ligne_pleine != -1) //tant qu'il y a une ligne pleine
     {
         tab->effacement_ligne(ligne_pleine);
         ligne_pleine = tab->reconnaissance_ligne();
+        nbLigneEff++;
         qDebug() << "lignes effacees";
     }
+    if(nbLigneEff == 1) scoreValue += 40;
+    else if (nbLigneEff == 2) scoreValue+=100;
+    else if(nbLigneEff == 3) scoreValue += 300;
+    else if(nbLigneEff == 4) scoreValue += 1200;
+    score->changerValeur(scoreValue);
+
+    nbLigneEffacees += nbLigneEff;
+    nbLigne->changerValeur(nbLigneEffacees);
 }
 
 
@@ -35,8 +44,11 @@ void jeu::keyPressEvent(QKeyEvent* event)
         pieceActive.mouvement(tab, "gauche");
     else if (event->key() == Qt::Key_Right)
         pieceActive.mouvement(tab, "droite");
-    else if (event->key() == Qt::Key_Down)
+    else if (event->key() == Qt::Key_Down){
         pieceActive.mouvement(tab, "bas");
+        scoreValue+=1;
+        score->changerValeur(scoreValue);
+    }
 }
 
 
@@ -127,7 +139,7 @@ void jeu::afficherFenetreJeu()
     scoreText->setPos(posx, posy);
     scene->addItem(scoreText);
 
-    afficheur* score = new afficheur();
+    score = new afficheur();
     posy=230;
     score->setPos(posx, posy);
     scene->addItem(score);
@@ -137,7 +149,7 @@ void jeu::afficherFenetreJeu()
     nbLigneText->setPos(posx, posy);
     scene->addItem(nbLigneText);
 
-    afficheur* nbLigne = new afficheur();
+    nbLigne = new afficheur();
     posy=330;
     nbLigne->setPos(posx, posy);
     scene->addItem(nbLigne);

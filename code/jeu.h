@@ -3,6 +3,7 @@
 
 #include "includers.h"
 #include "tableau.hpp"
+#include "afficheur.h"
 #include "piece.hpp"
 
 class jeu:public QGraphicsView{
@@ -25,7 +26,9 @@ public slots:
 
 
 private :
-    int iter = 0;
+    int iter = 0, scoreValue=0, nbLigneEffacees = 0;
+    afficheur* score;
+    afficheur* nbLigne;
     tableau* tab;
     piece pieceActive;
     QGraphicsRectItem* pieceAffichees[220];
