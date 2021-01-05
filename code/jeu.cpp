@@ -177,7 +177,6 @@ void jeu::start()
 void jeu::iteration()
 {
     pieceActive = genererPiece();
-    iactif = pieceActive.getpieces()[0].getcolonne() + (21-pieceActive.getpieces()[0].getligne())*10;
     afficherTableau();
     QTimer* timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(afficherTableau()));
