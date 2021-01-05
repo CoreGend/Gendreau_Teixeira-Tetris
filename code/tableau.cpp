@@ -49,7 +49,10 @@ int tableau::reconnaissance_ligne()
         int ligne_pleine = 1;
         while (j<largeur && ligne_pleine)
         {
-            if ((*this)(i,j).getcolonne() == 0) ligne_pleine = 0;
+            if ((*this)(i,j).getidentifiant() == 0)
+            {
+                ligne_pleine = 0;
+            }
             j++;
         }
         if (ligne_pleine) return i;
