@@ -197,7 +197,11 @@ void jeu::iteration()
 {
     pieceActive = genererPiece();
     afficherTableau();
-    QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
-    timer->start(50);
+    if(enJeu == 0)
+    {
+        QTimer* timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
+        timer->start(50);
+        enJeu++;
+    }
 }

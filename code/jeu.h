@@ -26,7 +26,7 @@ public slots:
 
 
 private :
-    int iter = 0, scoreValue=0, nbLigneEffacees = 0;
+    int iter = 0, scoreValue=0, nbLigneEffacees = 0, enJeu = 0;
     afficheur* score;
     afficheur* nbLigne;
     tableau* tab;
