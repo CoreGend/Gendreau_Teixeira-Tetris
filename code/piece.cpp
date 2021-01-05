@@ -148,7 +148,7 @@ void piece::_intit_(tableau* tab)
     bool init_standard_possible = init_piece_standard(tab);
     for (int i=0; i<nbDePiece; i++)
     {
-        parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2));
+        parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2)-1);
         if (init_standard_possible)
         {
             parts[i].setligne(parts[i].getligne()+1);
