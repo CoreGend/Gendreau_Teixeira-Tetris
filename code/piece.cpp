@@ -178,7 +178,8 @@ bool piece::place_libre(tableau tab, int lig, int col)
     {
         int identifiant_voisine = tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
         if ( (identifiant_voisine != 0 && identifiant_voisine != parts[i].getidentifiant() )
-        || parts[i].getligne()+lig >= tab.gethauteur() || parts[i].getcolonne()+col >= tab.getlargeur() )
+        || parts[i].getligne()+lig >= tab.gethauteur()
+        || parts[i].getcolonne()+col >= tab.getlargeur() || parts[i].getcolonne()+col < 0)
             {
                 qDebug() << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
                 libre = 0;
