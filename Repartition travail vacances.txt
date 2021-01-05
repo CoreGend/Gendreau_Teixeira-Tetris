@@ -25,4 +25,5 @@ Pour le 12/01/2021 :
 Quentin : finir initialisation pièces + le "té" 
 		+ les rotations + détection
 Corentin : scores  + nb de lignes supprimées // OK -05/01/2021 //
-		+ difficulté + mettre au propre un peu plus le code (commentaires)
+		+ difficulté // OK - 05/01/2021 //
+		+ mettre au propre un peu plus le code (commentaires)

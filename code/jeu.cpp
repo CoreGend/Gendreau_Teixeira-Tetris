@@ -35,6 +35,10 @@ void jeu::effacerLigne()
 
     nbLigneEffacees += nbLigneEff;
     nbLigne->changerValeur(nbLigneEffacees);
+
+    (nbLigneEffacees/10 + 1< 13) ? (diff = nbLigneEffacees/10 + 1 ) : diff = 13;
+    difficulte->changerValeur(diff);
+    newDiff();
 }
 
 
@@ -112,7 +116,7 @@ void jeu::afficherFenetreJeu()
     difficulteText->setPos(posx, posy);
     scene->addItem(difficulteText);
 
-    afficheur* difficulte = new afficheur();
+    difficulte = new afficheur();
     posy=180;
     difficulte->setPos(posx, posy);
     scene->addItem(difficulte);
@@ -169,10 +173,56 @@ void jeu::afficherFenetreJeu()
         }
     }
 }
+
+void jeu::newDiff()
+{
+    switch(diff)
+    {
+    case 1:
+        numDiff = 60;
+        break;
+    case 2:
+        numDiff = 48;
+        break;
+    case 3:
+        numDiff = 37;
+        break;
+    case 4:
+        numDiff = 28;
+        break;
+    case 5:
+        numDiff = 21;
+        break;
+    case 6:
+        numDiff = 16;
+        break;
+    case 7:
+        numDiff = 11;
+        break;
+    case 8:
+        numDiff = 8;
+        break;
+    case 9:
+        numDiff = 6;
+        break;
+    case 10:
+        numDiff = 4;
+        break;
+    case 11:
+        numDiff = 3;
+        break;
+    case 12:
+        numDiff = 2;
+        break;
+    case 13:
+        numDiff = 1;
+        break;
+    }
+}
 void jeu::new_tick()
 {
     iter++;
-    if(iter == 20)
+    if(iter >= numDiff)
     {
         pieceActive.mouvement(tab, "bas");
         iter = 0;
@@ -183,6 +233,7 @@ void jeu::new_tick()
             pieceActive = genererPiece();
     }
     afficherTableau();
+    qDebug() << "Hey!";
 }
 
 void jeu::start()
@@ -196,12 +247,13 @@ void jeu::start()
 void jeu::iteration()
 {
     pieceActive = genererPiece();
+    diff = 1; newDiff();
     afficherTableau();
     if(enJeu == 0)
     {
         QTimer* timer = new QTimer(this);
         connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
-        timer->start(50);
+        timer->start(16);
         enJeu++;
     }
 }
