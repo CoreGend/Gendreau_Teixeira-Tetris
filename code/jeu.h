@@ -23,7 +23,6 @@ public slots:
     void afficherTableau();
 
 private :
-    int iactif;
     tableau* tab;
     piece pieceActive;
     QGraphicsRectItem* pieceAffichees[220];
