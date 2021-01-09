@@ -54,9 +54,18 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             p4->setcoordonnees(1,1);
             blocs = {*p1, *p2, *p3, *p4};
             break;
-        
+
         case 2:
-            // Pièce 3 : "L"
+            // Pièce 3 : "T"
+            p1->setcoordonnees(0,-1);
+            p2->setcoordonnees(0,0);
+            p3->setcoordonnees(0,1);
+            p4->setcoordonnees(1,0);
+            blocs = {*p1, *p2, *p3, *p4};
+            break;
+        
+        case 3:
+            // Pièce 4 : "L"
             p1->setcoordonnees(1,-1);
             p2->setcoordonnees(0,-1);
             p3->setcoordonnees(0,0);
@@ -64,8 +73,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 3:
-            // Pièce 4 : "J"
+        case 4:
+            // Pièce 5 : "J"
             p1->setcoordonnees(0,-1);
             p2->setcoordonnees(0,0);
             p3->setcoordonnees(0,1);
@@ -73,8 +82,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 4:
-            // Pièce 5 : "Z"
+        case 5:
+            // Pièce 6 : "Z"
             p1->setcoordonnees(0,-1);
             p2->setcoordonnees(0,0);
             p3->setcoordonnees(1,0);
@@ -82,8 +91,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 5:
-            // Pièce 6 : "S"
+        case 6:
+            // Pièce 7 : "S"
             p1->setcoordonnees(1,-1);
             p2->setcoordonnees(1,0);
             p3->setcoordonnees(0,0);
@@ -114,26 +123,30 @@ bool piece::init_piece_standard(tableau* tab)
             break;
         
         case 2:
-            // Pièce 3 : "L"
+            // Pièce 3 : "T"
+            if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
+                esp_libre = 0;
+            break;
+        case 3:
+            // Pièce 4 : "L"
             if ((*tab)(parts[0].getligne(), parts[0].getcolonne()).getidentifiant() != 0)
                 esp_libre = 0;
             break;
-
-        case 3:
-            // Pièce 4 : "J"
+        case 4:
+            // Pièce 5 : "J"
             if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
                 esp_libre = 0;
             break;
 
-        case 4:
-            // Pièce 5 : "Z"
+        case 5:
+            // Pièce 6 : "Z"
             for (int i=3; i>1; i--)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = 0;
             break;
 
-        case 5:
-            // Pièce 6 : "S"
+        case 6:
+            // Pièce 7 : "S"
             for (int i=0; i<3; i++)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = 0;
@@ -237,6 +250,21 @@ void piece::mouvement(tableau* tab, const char* direction)
 
 void piece::descend(tableau* tab)
 {
+    if (((num_piece==0 || num_piece==3 || num_piece==6) && rot < 2) || ((num_piece==1 || num_piece==2 || num_piece==4 || num_piece==5) && rot >= 2))
+    {
+        for (int i=0; i<4; i++)
+        {
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
+        }
+    }
+    else
+    {
+        for (int i=3; i>=0; i--)
+            {
+                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
+            }
+    }
+    /*
     switch (num_piece)
     {
         case 0://I : pas besoin de s'embeter tout peut descendre dans l'ordre
@@ -251,48 +279,74 @@ void piece::descend(tableau* tab)
                 (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
             }
             break;
-        case 2://L : ok c'est déjç dans le bon ordre
+        case 2://T : il faut faire descendre d'abord la part_piece du bas bas
+            for (int i=3; i>=0; i--)
+            {
+                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
+            }
+            break;
+        case 3://L : ok c'est déjç dans le bon ordre
             for (int i=0; i<4; i++)
             {
                 (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(),&parts[i]);
             }
             break;
-        case 3://J : la dernière pièce de la liste doit descendre en 1er
+        case 4://J : la dernière pièce de la liste doit descendre en 1er
             for (int i=3; i>=0; i--)
             {
                 (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
             }
             break;
-        case 5://S : ok
+        case 5://Z : à l'envers
+            for (int i=3; i>=0; i--)
+            {
+                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
+            }
+            break;
+        case 6://S : ok
             for (int i=0; i<4; i++)
             {
                 (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
             }
             break;
-        case 4://Z : à l'envers
-            for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
     }
+    */
 }
 
 void piece::gauche(tableau* tab)
 {
-    // La liste prend les pièce de gauche à droite donc pas de problèmes
-    for (int i=0; i<4; i++)
+    if (rot >= 2)
     {
-        (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
+        for (int i=3; i>=0; i--)
+        {
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
+        }
+    }
+    else
+    { 
+        for (int i=0; i<4; i++)
+        {
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
+        }
     }
 }
 
 void piece::droite(tableau* tab)
 {
-    // La liste prend les pièce de gauche à droite donc faut faire à l'envers
-    for (int i=3; i>=0; i--)
+    if (rot < 2)
     {
-        (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
+        // La liste prend les pièce de gauche à droite donc faut faire à l'envers
+        for (int i=3; i>=0; i--)
+        {
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
+        }
+    }
+    else
+    { //comme la gauche de base, mais je savais pas si on peut appeler deux fonctions les unes dans les autres...
+        for (int i=0; i<4; i++)
+        {
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
+        }
     }
 }
 
@@ -303,5 +357,20 @@ void piece::stop()
 }
 
 
-void piece::rotation()
-{};
+void piece::rotation(tableau* tab)
+{
+    if (num_piece != 2)
+    {
+        int i_centre = 1;
+        if (num_piece == 3 || num_piece == 6) i_centre = 2;
+        int x_centre = parts[i_centre].getligne();
+        int y_centre = parts[i_centre].getcolonne();
+        for (int i=0; i<4; i++)
+        {
+            int x = parts[i].getligne();
+            int y = parts[i].getcolonne();
+            tab->changement_position(x, y, y-y_centre+x_centre, x_centre-x+y_centre, &parts[i]);
+        }
+        rot = (rot+1) %4;
+    }
+};
