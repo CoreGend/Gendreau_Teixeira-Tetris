@@ -1,6 +1,5 @@
 #include "jeu.h"
 #include "bouton.h"
-#include "afficheur.h"
 #include "zoneJeu.h"
 #include "tableau.hpp"
 #include "piece.hpp"
@@ -19,13 +18,27 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
 void jeu::effacerLigne()
 {
     int ligne_pleine = tab->reconnaissance_ligne();
+    int nbLigneEff = 0;
 //    qDebug() << "ligne reconnue : " << ligne_pleine;
     while (ligne_pleine != -1) //tant qu'il y a une ligne pleine
     {
         tab->effacement_ligne(ligne_pleine);
         ligne_pleine = tab->reconnaissance_ligne();
+        nbLigneEff++;
         qDebug() << "lignes effacees";
     }
+    if(nbLigneEff == 1) scoreValue += 40;
+    else if (nbLigneEff == 2) scoreValue+=100;
+    else if(nbLigneEff == 3) scoreValue += 300;
+    else if(nbLigneEff == 4) scoreValue += 1200;
+    score->changerValeur(scoreValue);
+
+    nbLigneEffacees += nbLigneEff;
+    nbLigne->changerValeur(nbLigneEffacees);
+
+    (nbLigneEffacees/10 + 1< 13) ? (diff = nbLigneEffacees/10 + 1 ) : diff = 13;
+    difficulte->changerValeur(diff);
+    newDiff();
 }
 
 
@@ -35,8 +48,11 @@ void jeu::keyPressEvent(QKeyEvent* event)
         pieceActive.mouvement(tab, "gauche");
     else if (event->key() == Qt::Key_Right)
         pieceActive.mouvement(tab, "droite");
-    else if (event->key() == Qt::Key_Down)
+    else if (event->key() == Qt::Key_Down){
         pieceActive.mouvement(tab, "bas");
+        scoreValue+=1;
+        score->changerValeur(scoreValue);
+    }
 }
 
 
@@ -100,7 +116,7 @@ void jeu::afficherFenetreJeu()
     difficulteText->setPos(posx, posy);
     scene->addItem(difficulteText);
 
-    afficheur* difficulte = new afficheur();
+    difficulte = new afficheur();
     posy=180;
     difficulte->setPos(posx, posy);
     scene->addItem(difficulte);
@@ -127,7 +143,7 @@ void jeu::afficherFenetreJeu()
     scoreText->setPos(posx, posy);
     scene->addItem(scoreText);
 
-    afficheur* score = new afficheur();
+    score = new afficheur();
     posy=230;
     score->setPos(posx, posy);
     scene->addItem(score);
@@ -137,7 +153,7 @@ void jeu::afficherFenetreJeu()
     nbLigneText->setPos(posx, posy);
     scene->addItem(nbLigneText);
 
-    afficheur* nbLigne = new afficheur();
+    nbLigne = new afficheur();
     posy=330;
     nbLigne->setPos(posx, posy);
     scene->addItem(nbLigne);
@@ -157,10 +173,56 @@ void jeu::afficherFenetreJeu()
         }
     }
 }
+
+void jeu::newDiff()
+{
+    switch(diff)
+    {
+    case 1:
+        numDiff = 60;
+        break;
+    case 2:
+        numDiff = 48;
+        break;
+    case 3:
+        numDiff = 37;
+        break;
+    case 4:
+        numDiff = 28;
+        break;
+    case 5:
+        numDiff = 21;
+        break;
+    case 6:
+        numDiff = 16;
+        break;
+    case 7:
+        numDiff = 11;
+        break;
+    case 8:
+        numDiff = 8;
+        break;
+    case 9:
+        numDiff = 6;
+        break;
+    case 10:
+        numDiff = 4;
+        break;
+    case 11:
+        numDiff = 3;
+        break;
+    case 12:
+        numDiff = 2;
+        break;
+    case 13:
+        numDiff = 1;
+        break;
+    }
+}
 void jeu::new_tick()
 {
     iter++;
-    if(iter == 20)
+    if(iter >= numDiff)
     {
         pieceActive.mouvement(tab, "bas");
         iter = 0;
@@ -171,6 +233,7 @@ void jeu::new_tick()
             pieceActive = genererPiece();
     }
     afficherTableau();
+    qDebug() << "Hey!";
 }
 
 void jeu::start()
@@ -184,8 +247,13 @@ void jeu::start()
 void jeu::iteration()
 {
     pieceActive = genererPiece();
+    diff = 1; newDiff();
     afficherTableau();
-    QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
-    timer->start(50);
+    if(enJeu == 0)
+    {
+        QTimer* timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(new_tick()));
+        timer->start(16);
+        enJeu++;
+    }
 }

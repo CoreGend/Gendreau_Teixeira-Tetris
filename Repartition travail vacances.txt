@@ -1,10 +1,10 @@
 Pour la prochaine seance (05/01/2020):
 	Prototype
 
--> toutes les classes
--> toutes les pieces du jeu de base
--> tous les menus + parametres
--> interface graphique 2D (Qt)
+-> toutes les classes			V
+-> toutes les pieces du jeu de base	V (manque T)
+-> tous les menus + parametres		~ (reste différents menus, petit à petit)
+-> interface graphique 2D (Qt)		V
 
 Repartition :
 Quentin  : classes et pieces, boucle principale
@@ -19,3 +19,11 @@ Si on a le temps :
 Pour choisir ce qu'on prefere
 
 JOYEUSES FEEEEEEEEETES
+
+
+Pour le 12/01/2021 :
+Quentin : finir initialisation pièces + le "té" 
+		+ les rotations + détection
+Corentin : scores  + nb de lignes supprimées // OK -05/01/2021 //
+		+ difficulté // OK - 05/01/2021 //
+		+ mettre au propre un peu plus le code (commentaires)

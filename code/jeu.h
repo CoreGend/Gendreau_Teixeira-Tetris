@@ -3,6 +3,7 @@
 
 #include "includers.h"
 #include "tableau.hpp"
+#include "afficheur.h"
 #include "piece.hpp"
 
 class jeu:public QGraphicsView{
@@ -16,6 +17,7 @@ public:
     void iteration();
     void afficherTableau();
     void keyPressEvent(QKeyEvent* event);
+    void newDiff();
 
     QGraphicsScene* scene;
 
@@ -25,7 +27,10 @@ public slots:
 
 
 private :
-    int iter = 0;
+    int iter = 0, scoreValue=0, nbLigneEffacees = 0, enJeu = 0, diff = 1, numDiff;
+    afficheur* score;
+    afficheur* nbLigne;
+    afficheur* difficulte;
     tableau* tab;
     piece pieceActive;
     QGraphicsRectItem* pieceAffichees[220];
