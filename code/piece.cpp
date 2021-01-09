@@ -144,7 +144,7 @@ void piece::gauche(tableau* tab)
     {
         for (int i=3; i>=0; i--)
         {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
         }
     }
     else
@@ -170,7 +170,7 @@ void piece::droite(tableau* tab)
     { //comme la gauche de base, mais je savais pas si on peut appeler deux fonctions les unes dans les autres...
         for (int i=0; i<4; i++)
         {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
         }
     }
 }
