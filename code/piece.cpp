@@ -131,19 +131,11 @@ void piece::mouvement(tableau* tab, const char* direction)
 void piece::descend(tableau* tab)
 {
     if (((num_piece==0 || num_piece==3 || num_piece==6) && rot < 2) || ((num_piece==1 || num_piece==2 || num_piece==4 || num_piece==5) && rot >= 2))
-    {
         for (int i=0; i<4; i++)
-        {
             (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-        }
-    }
     else
-    {
         for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-    }
+            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
 }
 
 void piece::gauche(tableau* tab)
@@ -190,7 +182,7 @@ void piece::stop()
 
 void piece::rotation(tableau* tab)
 {
-    if (num_piece != 2)
+    if (num_piece != 1)
     {
         int i_centre = 1;
         if (num_piece == 3 || num_piece == 6) i_centre = 2;

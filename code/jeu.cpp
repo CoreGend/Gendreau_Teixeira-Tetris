@@ -195,11 +195,12 @@ void jeu::keyPressEvent(QKeyEvent* event)
         pieceActive.mouvement(tab, "droite");
     else if (event->key() == Qt::Key_Up)
         pieceActive.rotation(tab);
-    }
     else if (event->key() == Qt::Key_Down){
         pieceActive.mouvement(tab, "bas");
         scoreValue+=1;
         score->changerValeur(scoreValue);
+        qDebug() << "descente";
+    }
     }
 }
 
