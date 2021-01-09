@@ -21,7 +21,6 @@ les lignes et colonnes seront numérotées de 0 à longueur-1 (resp: largeur-1)
                 part_piece piece_vide(0,0,0);
                 liste.push_back(piece_vide);
             }
-            qDebug() << "Initialisation effectuée";
         };
         
         int gethauteur() const;

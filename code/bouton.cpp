@@ -1,5 +1,6 @@
 #include "bouton.h"
 
+/* constructeur */
 bouton::bouton(QString nom, QGraphicsItem* parent): QGraphicsRectItem(parent)
 {
     setRect(0,0,200,50);
@@ -19,23 +20,19 @@ bouton::bouton(QString nom, QGraphicsItem* parent): QGraphicsRectItem(parent)
     setAcceptHoverEvents(true);
 }
 
-void bouton::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-    emit clicked();
-}
+/* gère action lorsque l'utilisateur clique sur le bouton*/
+void bouton::mousePressEvent(QGraphicsSceneMouseEvent *event) { emit clicked(); }
 
-void bouton::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    //change la couleur
+/*  gère ce qu'il se passe lorsque le curseur passe sur la zone puis la quitte :
+    change la couleur du fond*/
+void bouton::hoverEnterEvent(QGraphicsSceneHoverEvent *event){
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(QColor(174,242,242));
     setBrush(brush);
 }
 
-void bouton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    //remet la couleur normale
+void bouton::hoverLeaveEvent(QGraphicsSceneHoverEvent *event){
     QBrush brush;
     brush.setStyle(Qt::SolidPattern);
     brush.setColor(QColor(226,226,226,127));

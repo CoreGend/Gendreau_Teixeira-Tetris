@@ -4,6 +4,7 @@
 #include "tableau.hpp"
 
 
+
 class piece
 {
     private:
