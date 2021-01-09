@@ -9,31 +9,44 @@
 class jeu:public QGraphicsView{
     Q_OBJECT
 public:
+    /* constructeur */
     jeu(QWidget* parent = nullptr);
 
+    /* fonctions */
     void afficherFenetreJeu();
     piece genererPiece();
     void effacerLigne();
-    void iteration();
     void afficherTableau();
     void keyPressEvent(QKeyEvent* event);
     void newDiff();
-
-    QGraphicsScene* scene;
+    void insertText(QString text);
+    void removeText();
 
 public slots:
     void start();
     void new_tick();
+    void pauseGame();
 
 
 private :
-    int iter = 0, scoreValue=0, nbLigneEffacees = 0, enJeu = 0, diff = 1, numDiff;
+    /*  éléments qui peuvent être modifiés en cours de partie */
+    int scoreValue=0, //score actuel
+        nbLigneEffacees = 0,//nombre de lignes effacées
+        iter = 0,   //nombre de rafraichissement de la fenetre - réinitialisé lorsque le compteur atteint numDiff
+        diff = 1,   //difficulté de jeu
+        numDiff;    //nombre de rafraichissement de l'image avant de descendre une pièce automatiquement
+    bool    enJeu = false,//faux tant que le timer n'est pas initialisé, évite de l'activer plusieurs fois
+            pauseActive = false,
+            finPartie = false;//faux tant que la partie n'est pas finie
     afficheur* score;
     afficheur* nbLigne;
     afficheur* difficulte;
     tableau* tab;
     piece pieceActive;
     QGraphicsRectItem* pieceAffichees[220];
+    QGraphicsTextItem* inGameText;
+    QGraphicsRectItem* inGameTextZone;
+    QGraphicsScene* scene;
 };
 
 #endif // JEU_H

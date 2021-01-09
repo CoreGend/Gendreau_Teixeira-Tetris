@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 
     onJoue = new jeu();
     onJoue->show();
-    onJoue->afficherFenetreJeu();
 
     return app.exec();
 

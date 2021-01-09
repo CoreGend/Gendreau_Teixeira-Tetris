@@ -12,21 +12,21 @@ SOURCES += \
     afficheur.cpp \
     bouton.cpp \
     jeu.cpp \
+    liste_piece.cpp \
     main.cpp \
     part_piece.cpp \
     piece.cpp \
-    tableau.cpp \
-    zoneJeu.cpp
+    tableau.cpp
 
 HEADERS += \
     afficheur.h \
     bouton.h \
     includers.h \
     jeu.h \
+    liste_piece.h \
     part_piece.hpp \
     piece.hpp \
-    tableau.hpp \
-    zoneJeu.h
+    tableau.hpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

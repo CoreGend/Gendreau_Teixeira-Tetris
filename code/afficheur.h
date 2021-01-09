@@ -3,18 +3,21 @@
 
 #include "includers.h"
 
+/*  zone rectangulaire avec un nombre affiché à l'intérieur */
 class afficheur: public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    afficheur(int nouvelleValeur = 0, QGraphicsItem* parent = nullptr);
+    afficheur(long unsigned int nouvelleValeur = 0, QGraphicsItem* parent = nullptr);
+/*  Il n'est pas nécessaire de faire les destructeurs puisque l'objet
+    est un objet Qt, qui gère lui-même la destruction de ses objets à
+    la fermeture d'un programme */
 
 public slots:
-    void changerValeur(int newValue);
-    void increment();
+    void changerValeur(long unsigned int newValue);
 
 private:
-    int valeur;
+    long unsigned int valeur;
     QString texte;
     QGraphicsTextItem* valeurAffichee;
 };
