@@ -17,82 +17,6 @@ std::vector<part_piece> piece::getpieces() const
 void piece::setidentifiant(int id)
 { identifiant = id; }
 
-<<<<<<< HEAD
-    switch (num)
-    {
-        case 0:
-            // Pièce 1 : "I"
-            p1->setcoordonnees(0,-1);
-            p2->setcoordonnees(0,0);
-            p3->setcoordonnees(0,1);
-            p4->setcoordonnees(0,2);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-        
-        case 1:
-            // Pièce 2 : "O"
-            p1->setcoordonnees(0,0);
-            p2->setcoordonnees(0,1);
-            p3->setcoordonnees(1,0);
-            p4->setcoordonnees(1,1);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-
-        case 2:
-            // Pièce 3 : "T"
-            p1->setcoordonnees(0,-1);
-            p2->setcoordonnees(0,0);
-            p3->setcoordonnees(0,1);
-            p4->setcoordonnees(1,0);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-        
-        case 3:
-            // Pièce 4 : "L"
-            p1->setcoordonnees(1,-1);
-            p2->setcoordonnees(0,-1);
-            p3->setcoordonnees(0,0);
-            p4->setcoordonnees(0,1);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-
-        case 4:
-            // Pièce 5 : "J"
-            p1->setcoordonnees(0,-1);
-            p2->setcoordonnees(0,0);
-            p3->setcoordonnees(0,1);
-            p4->setcoordonnees(1,1);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-
-        case 5:
-            // Pièce 6 : "Z"
-            p1->setcoordonnees(0,-1);
-            p2->setcoordonnees(0,0);
-            p3->setcoordonnees(1,0);
-            p4->setcoordonnees(1,1);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-
-        case 6:
-            // Pièce 7 : "S"
-            p1->setcoordonnees(1,-1);
-            p2->setcoordonnees(1,0);
-            p3->setcoordonnees(0,0);
-            p4->setcoordonnees(0,1);
-            blocs = {*p1, *p2, *p3, *p4};
-            break;
-        default:
-            qDebug() << "Numero de piece non connu\n";
-            blocs = {-1,-1,-1,-1};
-    }
-    return blocs;
-};
-=======
-void piece::setpieces(std::vector<part_piece> blocs)
-{ parts = blocs; }
->>>>>>> 5a0d39c1d1ad3e8e10c86bb4ea507c69ca0cc558
-
 bool piece::init_piece_standard(tableau* tab)
 {
     bool esp_libre = true;
@@ -156,11 +80,7 @@ void piece::_intit_(tableau* tab)
             //(*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
         }
         else
-        {
- //           qDebug() << "Special init\n";
             (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
-        }
-        //std::cout << "piece placee en " << parts[i].getligne()<< "," << parts[i].getcolonne() << std::endl;
     }
 };
 
@@ -186,7 +106,6 @@ bool piece::place_libre(tableau tab, int lig, int col)
         || parts[i].getligne()+lig >= tab.gethauteur()
         || parts[i].getcolonne()+col >= tab.getlargeur() || parts[i].getcolonne()+col < 0)
             {
-//                qDebug() << tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
                 libre = 0;
             }
         i++;
@@ -225,53 +144,6 @@ void piece::descend(tableau* tab)
                 (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
             }
     }
-    /*
-    switch (num_piece)
-    {
-        case 0://I : pas besoin de s'embeter tout peut descendre dans l'ordre
-            for (int i=0; i<4; i++)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-        case 1://O : il faut faire descendre d'abord le bas ie partpiece d'indice 2 et 3 dans la liste
-            for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-        case 2://T : il faut faire descendre d'abord la part_piece du bas bas
-            for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-        case 3://L : ok c'est déjç dans le bon ordre
-            for (int i=0; i<4; i++)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(),&parts[i]);
-            }
-            break;
-        case 4://J : la dernière pièce de la liste doit descendre en 1er
-            for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-        case 5://Z : à l'envers
-            for (int i=3; i>=0; i--)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-        case 6://S : ok
-            for (int i=0; i<4; i++)
-            {
-                (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-            }
-            break;
-    }
-    */
 }
 
 void piece::gauche(tableau* tab)
