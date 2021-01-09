@@ -27,7 +27,7 @@ void jeu::afficherFenetreJeu()
     difficulteText->setPos(posx, posy);
     scene->addItem(difficulteText);
 
-    difficulte = new afficheur();
+    difficulte = new afficheur(1);
     posy=180;
     difficulte->setPos(posx, posy);
     scene->addItem(difficulte);
@@ -188,14 +188,16 @@ void jeu::afficherTableau()
 /*  fonction qui survient lorsqu'une touche est appuyée */
 void jeu::keyPressEvent(QKeyEvent* event)
 {
-    if(event->key() == Qt::Key_Left && !pauseActive)
+    if(!pauseActive && !finPartie){
+    if(event->key() == Qt::Key_Left)
         pieceActive.mouvement(tab, "gauche");
-    else if (event->key() == Qt::Key_Right && !pauseActive)
+    else if (event->key() == Qt::Key_Right)
         pieceActive.mouvement(tab, "droite");
-    else if (event->key() == Qt::Key_Down && !pauseActive && !finPartie){
+    else if (event->key() == Qt::Key_Down){
         pieceActive.mouvement(tab, "bas");
         scoreValue+=1;
         score->changerValeur(scoreValue);
+    }
     }
 }
 
