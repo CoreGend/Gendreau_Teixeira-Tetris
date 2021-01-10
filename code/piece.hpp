@@ -19,7 +19,7 @@ class piece
     public:
         piece(): nbDePiece(4), rot(0)
         {
-            num_piece = rand()%6;
+            num_piece = rand()%7;
             //num_piece = 1;
             identifiant = rand()%1000 +1;
         };
@@ -39,6 +39,7 @@ class piece
         void setpieces(std::vector<part_piece> blocs);
 
         void _intit_(tableau* tab);
+        void placerPiece(tableau* tab, int hauteur, int largeur);
         bool init_piece_standard(tableau* tab);
 
         bool place_libre(tableau tab, int lig, int col);

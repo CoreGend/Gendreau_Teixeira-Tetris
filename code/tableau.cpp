@@ -59,7 +59,7 @@ int tableau::reconnaissance_ligne()
 
 void tableau::effacement_ligne(int k)
 {
-    //Il faudrait libérer l'espace des parties de pièces sur la ligne correspondantes avent de tout faire descendre....
+    //Il faudrait libérer l'espace des parties de pièces sur la ligne correspondantes avant de tout faire descendre....
     if (k>0)
     {
         for (int j=0; j<largeur; j++)
@@ -81,3 +81,15 @@ void tableau::verif_fin_partie()
     for(int j=0; j<largeur; j++)
         if ((*this)(1,j).getidentifiant() != 0) partie_finie = true;
 };
+
+void tableau::reset()
+{
+    part_piece pieceVide(0,0,0);
+    for(int i=0; i<hauteur; i++)
+    {
+        for(int j=0; j<largeur; j++)
+        {
+            (*this)(i,j) = pieceVide;
+        }
+    }
+}

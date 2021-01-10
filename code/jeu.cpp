@@ -22,6 +22,7 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
    dedans (boutons, zones d'affichage de score...) */
 void jeu::afficherFenetreJeu()
 {
+    /* PARTIE DROITE */
     QGraphicsTextItem* difficulteText = new QGraphicsTextItem("Difficulté");
     int posx = 50; int posy = 150;
     difficulteText->setPos(posx, posy);
@@ -50,37 +51,19 @@ void jeu::afficherFenetreJeu()
     connect(quitter, SIGNAL(clicked()), this, SLOT(close()));
     scene->addItem(quitter);
 
-    QGraphicsItem* scoreText = new QGraphicsTextItem("Score");
-    posx=550; posy=200;
-    scoreText->setPos(posx, posy);
-    scene->addItem(scoreText);
-
-    score = new afficheur();
-    posy=230;
-    score->setPos(posx, posy);
-    scene->addItem(score);
-
-    QGraphicsTextItem* nbLigneText = new QGraphicsTextItem("Lignes completées");
-    posy=300;
-    nbLigneText->setPos(posx, posy);
-    scene->addItem(nbLigneText);
-
-    nbLigne = new afficheur();
-    posy=330;
-    nbLigne->setPos(posx, posy);
-    scene->addItem(nbLigne);
-
+    /* PARTIE CENTRALE */
+    //peut être supprimé
+    QBrush brush; brush.setColor(Qt::white); brush.setStyle(Qt::NoBrush);
+    QPen pen; pen.setWidthF(0.1);
     for(int i=0; i<22; i++)
     {
         for(int j=0; j<10; j++)
         {
             pieceAffichees[i*10+j] = new QGraphicsRectItem;
-            int posx = j*20+300; int posy = i*20+80;
+            posx = j*20+300; posy = i*20+80;
             pieceAffichees[i*10+j]->setRect(posx, posy, 20,20);
 
-            QBrush brush; brush.setColor(Qt::white); brush.setStyle(Qt::NoBrush);
             pieceAffichees[i*10+j]->setBrush(brush);
-            QPen pen; pen.setWidthF(0.1);
             pieceAffichees[i*10+j]->setPen(pen);
             scene->addItem(pieceAffichees[i*10+j]);
         }
@@ -100,6 +83,48 @@ void jeu::afficherFenetreJeu()
     inGameText->setFont(font);
 
     scene->addItem(inGameTextZone);
+
+
+    /* PARTIE GAUCHE */
+    QGraphicsItem* piecesText = new QGraphicsTextItem("Prochaines pièces");
+    posx=550; posy=100;
+    piecesText->setPos(posx, posy);
+    scene->addItem(piecesText);
+
+
+    for(int x=0; x<9; x++)
+        for(int y=0; y<2; y++)
+        {
+            pieceBuffer[y*9+x] = new QGraphicsRectItem;
+            posx = x*20+550; posy = y*20+130;
+            pieceBuffer[y*9+x]->setRect(posx, posy, 20,20);
+
+            pieceBuffer[y*9+x]->setBrush(brush);
+            pieceBuffer[y*9+x]->setPen(Qt::NoPen);
+            scene->addItem(pieceBuffer[y*9+x]);
+        }
+
+    posx = 550;
+
+    QGraphicsItem* scoreText = new QGraphicsTextItem("Score");
+    posy=200;
+    scoreText->setPos(posx, posy);
+    scene->addItem(scoreText);
+
+    score = new afficheur();
+    posy=230;
+    score->setPos(posx, posy);
+    scene->addItem(score);
+
+    QGraphicsTextItem* nbLigneText = new QGraphicsTextItem("Lignes completées");
+    posy=300;
+    nbLigneText->setPos(posx, posy);
+    scene->addItem(nbLigneText);
+
+    nbLigne = new afficheur();
+    posy=330;
+    nbLigne->setPos(posx, posy);
+    scene->addItem(nbLigne);
 }
 
 /* génération d'une pièce */
@@ -141,15 +166,15 @@ void jeu::effacerLigne()
 }
 
 /*  affiche le tableau graphique en se basant sur le tableau de jeu */
-void jeu::afficherTableau()
+void jeu::afficherTableau(tableau* loc_tab, QGraphicsRectItem** listePieces)
 {
-    int hauteur = tab->gethauteur(); int largeur = tab->getlargeur();
+    int hauteur = loc_tab->gethauteur(); int largeur = loc_tab->getlargeur();
+    QBrush brush; brush.setStyle(Qt::SolidPattern);
     for(int i=0; i<hauteur; ++i)
     {
         for(int j=0; j<largeur; ++j)
         {
-            QBrush brush; brush.setStyle(Qt::SolidPattern);
-            switch( (tab->getliste()[i*10+j]).getcouleur())
+            switch( (loc_tab->getliste()[i*largeur+j]).getcouleur())
             {
             case 0:
                 brush.setColor(Qt::cyan);
@@ -184,7 +209,7 @@ void jeu::afficherTableau()
                 brush.setColor(Qt::white);
             }
 
-            pieceAffichees[i*10+j]->setBrush(brush);
+            listePieces[i*largeur+j]->setBrush(brush);
         }
     }
 }
@@ -254,15 +279,31 @@ void jeu::newDiff()
     }
 }
 
+void jeu::afficherBuffer()
+{
+    // buffer[0] et buffer[1] sont des pieces, on veut les afficher
+    buff->reset();
+
+    buffer[0].placerPiece(buff, 0,1);
+    buffer[1].placerPiece(buff, 0,6);
+
+    afficherTableau(buff, pieceBuffer);
+}
+
 /* lancement du jeu en créant le tableau de jeu, initialisant tout et créant le timer */
 void jeu::start(){
     tab = new tableau(22,10);
+    buff = new tableau(2,9);
     removeText();
 
     pieceActive = genererPiece();
+    buffer[0] = piece();
+    buffer[1] = piece();
+
     diff = 1; newDiff();
 
-    afficherTableau();
+    afficherTableau(tab, pieceAffichees);
+    afficherBuffer();
 
     if(enJeu == false)
     {
@@ -295,12 +336,18 @@ void jeu::new_tick()
             tab->verif_fin_partie();
             finPartie = tab->getpartie_finie();
             if(!finPartie && !pauseActive)
-               pieceActive = genererPiece();
+            {
+               pieceActive = buffer[0];
+               buffer[0] = buffer[1];
+               buffer[1] = piece();
+               pieceActive._intit_(tab);
+               afficherBuffer();
+            }
     }
     if(finPartie)
         pauseGame();
 
-    afficherTableau();
+    afficherTableau(tab, pieceAffichees);
 }
 
 void jeu::pauseGame()

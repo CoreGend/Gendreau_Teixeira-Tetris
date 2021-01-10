@@ -16,11 +16,12 @@ public:
     void afficherFenetreJeu();
     piece genererPiece();
     void effacerLigne();
-    void afficherTableau();
+    void afficherTableau(tableau* loc_tab, QGraphicsRectItem** listePieces);
     void keyPressEvent(QKeyEvent* event);
     void newDiff();
     void insertText(QString text);
     void removeText();
+    void afficherBuffer();
 
 public slots:
     void start();
@@ -41,9 +42,10 @@ private :
     afficheur* score;
     afficheur* nbLigne;
     afficheur* difficulte;
-    tableau* tab;
-    piece pieceActive;
+    tableau* tab; tableau* buff;
+    piece pieceActive; piece buffer[2];
     QGraphicsRectItem* pieceAffichees[220];
+    QGraphicsRectItem* pieceBuffer[18];
     QGraphicsTextItem* inGameText;
     QGraphicsRectItem* inGameTextZone;
     QGraphicsScene* scene;

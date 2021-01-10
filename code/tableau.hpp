@@ -37,6 +37,7 @@ les lignes et colonnes seront numérotées de 0 à longueur-1 (resp: largeur-1)
         void changement_position(int prev_lig, int prev_col, int lig, int col, part_piece* pp);
 
         void affichage();
+        void reset();
 
         ~tableau(){};
 };

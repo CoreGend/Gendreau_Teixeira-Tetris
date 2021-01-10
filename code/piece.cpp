@@ -84,6 +84,19 @@ void piece::_intit_(tableau* tab)
     }
 };
 
+void piece::placerPiece(tableau* tab, int hauteur, int largeur)
+{
+    int x, y;
+    parts = liste_piece(num_piece, identifiant);
+    for(int i=0; i<nbDePiece; i++)
+    {
+        x = largeur+parts[i].getcolonne(); y = hauteur+parts[i].getligne();
+        parts[i].setcolonne(x);
+        parts[i].setligne(y);
+        (*tab)(y,x) = parts[i];
+    }
+}
+
 /* je voulais utiliser cette fonction pour vérifier si une part piece fait partie de la même pièce que celle que l'on considère
     pour éviter que les pièces voient leurs propres parties quand elles vérifient si elles peuvent bouger sur les côtés...
 bool meme_part_piece(part_piece* pp, piece p)
