@@ -155,8 +155,12 @@ void jeu::afficherTableau()
                 brush.setColor(Qt::cyan);
                 break;
             case 1:
-                brush.setColor(Qt::yellow);
+            {
+                QColor color;
+                color.setRgb(239,221,0,255);
+                brush.setColor(color);
                 break;
+            }
             case 2:
                 brush.setColor(Qt::darkMagenta);
                 break;
