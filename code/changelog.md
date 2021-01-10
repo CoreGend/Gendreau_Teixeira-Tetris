@@ -1,3 +1,8 @@
+10/10/2021 (Corentin)
+principaux:
+- correction des mouvements des pièces (rotation et déplacements)
+- ajout du buffer de pièces
+
 09/01/2021 (Corentin)
 principaux :
 - ajout d'une fonctionnalité de pause
