@@ -22,8 +22,10 @@ JOYEUSES FEEEEEEEEETES
 
 
 Pour le 12/01/2021 :
-Quentin : finir initialisation pièces + le "té" // OK -10/01/2021 //
-		+ les rotations + détection	// OK -10/01/2021 //
+Quentin : finir initialisation pièces 
+		+ le "té" // OK -10/01/2021 //
+		+ les rotations -- reste la vérification que peut tourner
+		+ détection	// OK -10/01/2021 //
 Corentin : scores  + nb de lignes supprimées // OK -05/01/2021 //
 		+ difficulté // OK - 05/01/2021 //
 		+ mettre au propre un peu plus le code //OK -10/01/2021 //
