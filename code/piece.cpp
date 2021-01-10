@@ -102,12 +102,11 @@ bool piece::place_libre(tableau tab, int lig, int col)
     while (i<nbDePiece && libre)
     {
         int identifiant_voisine = tab(parts[i].getligne()+lig, parts[i].getcolonne()+col).getidentifiant();
+
         if ( (identifiant_voisine != 0 && identifiant_voisine != parts[i].getidentifiant() )
         || parts[i].getligne()+lig >= tab.gethauteur()
         || parts[i].getcolonne()+col >= tab.getlargeur() || parts[i].getcolonne()+col < 0)
-            {
-                libre = 0;
-            }
+            { libre = 0; }
         i++;
     }
     return libre;
@@ -119,8 +118,7 @@ void piece::mouvement(tableau* tab, const char* direction)
         gauche(tab);
     else if (!strcmp(direction,"droite") && place_libre(*tab, 0, 1))
         droite(tab);
-    else if (!strcmp(direction,"bas"))
-    {
+    else if (!strcmp(direction,"bas")){
         if (place_libre(*tab, 1, 0))
             descend(tab);
         else
@@ -130,48 +128,92 @@ void piece::mouvement(tableau* tab, const char* direction)
 
 void piece::descend(tableau* tab)
 {
-    if (((num_piece==0 || num_piece==3 || num_piece==6) && rot < 2) || ((num_piece==1 || num_piece==2 || num_piece==4 || num_piece==5) && rot >= 2))
-        for (int i=0; i<4; i++)
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
-    else
-        for (int i=3; i>=0; i--)
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne()+1, parts[i].getcolonne(), &parts[i]);
+    int indice_tri[4];
+    for(int i=0; i<4; i++) indice_tri[i] = i;
+    int hauteur_i, hauteur_j, tmp_indice;
+    for(int i=0; i<4; i++)
+    {
+        for(int j=i; j>=1; j--)
+        {
+            hauteur_i = parts[indice_tri[j-1]].getligne();
+            hauteur_j = parts[indice_tri[j]].getligne();
+            if(hauteur_j > hauteur_i){
+                tmp_indice = indice_tri[j-1];
+                indice_tri[j-1] = indice_tri[j];
+                indice_tri[j] = tmp_indice;
+            }
+        }
+    }
+//    qDebug() << "[" << parts[indice_tri[0]].getligne() << parts[indice_tri[1]].getligne() << parts[indice_tri[2]].getligne() << parts[indice_tri[3]].getligne() << "]"
+//             << "[" << indice_tri[0] << indice_tri[1] << indice_tri[2] << indice_tri[3] << "]";
+
+    int ligne, colonne;
+    for(int i=0; i<4; i++)
+    {
+        ligne = parts[indice_tri[i]].getligne();
+        colonne = parts[indice_tri[i]].getcolonne();
+        (*tab).changement_position(ligne, colonne, ligne+1, colonne, &parts[indice_tri[i]]);
+     //   qDebug() << "Positions de piece : colonne, ligne | " << colonne << ", " << ligne;
+    }
 }
 
 void piece::gauche(tableau* tab)
 {
-    if (rot >= 2)
+    int indice_tri[4];
+    for(int i=0; i<4; i++) indice_tri[i] = i;
+    int colonne_i, colonne_j, tmp_indice;
+    for(int i=0; i<4; i++)
     {
-        for (int i=3; i>=0; i--)
+        for(int j=i; j>=1; j--)
         {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
+            colonne_i = parts[indice_tri[j-1]].getcolonne();
+            colonne_j = parts[indice_tri[j]].getcolonne();
+            if(colonne_j < colonne_i){
+                tmp_indice = indice_tri[j-1];
+                indice_tri[j-1] = indice_tri[j];
+                indice_tri[j] = tmp_indice;
+            }
         }
     }
-    else
-    { 
-        for (int i=0; i<4; i++)
-        {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()-1, &parts[i]);
-        }
+//    qDebug() << "[" << parts[indice_tri[0]].getcolonne() << parts[indice_tri[1]].getcolonne() << parts[indice_tri[2]].getcolonne() << parts[indice_tri[3]].getcolonne() << "]"
+//             << "[" << indice_tri[0] << indice_tri[1] << indice_tri[2] << indice_tri[3] << "]";
+
+    int ligne, colonne;
+    for(int i=0; i<4; i++)
+    {
+        ligne = parts[indice_tri[i]].getligne();
+        colonne = parts[indice_tri[i]].getcolonne();
+        (*tab).changement_position(ligne, colonne, ligne, colonne-1, &parts[indice_tri[i]]);
     }
 }
 
 void piece::droite(tableau* tab)
 {
-    if (rot < 2)
+    int indice_tri[4];
+    for(int i=0; i<4; i++) indice_tri[i] = i;
+    int colonne_i, colonne_j, tmp_indice;
+    for(int i=0; i<4; i++)
     {
-        // La liste prend les pièce de gauche à droite donc faut faire à l'envers
-        for (int i=3; i>=0; i--)
+        for(int j=i; j>=1; j--)
         {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
+            colonne_i = parts[indice_tri[j-1]].getcolonne();
+            colonne_j = parts[indice_tri[j]].getcolonne();
+            if(colonne_j > colonne_i){
+                tmp_indice = indice_tri[j-1];
+                indice_tri[j-1] = indice_tri[j];
+                indice_tri[j] = tmp_indice;
+            }
         }
     }
-    else
-    { //comme la gauche de base, mais je savais pas si on peut appeler deux fonctions les unes dans les autres...
-        for (int i=0; i<4; i++)
-        {
-            (*tab).changement_position(parts[i].getligne(), parts[i].getcolonne(), parts[i].getligne(), parts[i].getcolonne()+1, &parts[i]);
-        }
+//    qDebug() << "[" << parts[indice_tri[0]].getcolonne() << parts[indice_tri[1]].getcolonne() << parts[indice_tri[2]].getcolonne() << parts[indice_tri[3]].getcolonne() << "]"
+//             << "[" << indice_tri[0] << indice_tri[1] << indice_tri[2] << indice_tri[3] << "]";
+
+    int ligne, colonne;
+    for(int i=0; i<4; i++)
+    {
+        ligne = parts[indice_tri[i]].getligne();
+        colonne = parts[indice_tri[i]].getcolonne();
+        (*tab).changement_position(ligne, colonne, ligne, colonne+1, &parts[indice_tri[i]]);
     }
 }
 
@@ -182,6 +224,7 @@ void piece::stop()
 
 void piece::rotation(tableau* tab)
 {
+
     if (num_piece != 1)
     {
         int i_centre = 1;

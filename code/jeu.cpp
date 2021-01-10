@@ -199,7 +199,6 @@ void jeu::keyPressEvent(QKeyEvent* event)
         pieceActive.mouvement(tab, "bas");
         scoreValue+=1;
         score->changerValeur(scoreValue);
-        qDebug() << "descente";
     }
     }
 }
