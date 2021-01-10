@@ -224,19 +224,76 @@ void piece::stop()
 
 void piece::rotation(tableau* tab)
 {
-
-    if (num_piece != 1)
+    /*  plus dur... il faut voir les objets en conflit et faire en sorte de les corriger
+        nous travaillerons sur 5 listes : colonne et ligne avant et apres et indices */
+    if(num_piece != 1)//la piece 1 ne tourne pas, carré
     {
+        //la piece va tourner autour du centre
         int i_centre = 1;
         if (num_piece == 3 || num_piece == 6) i_centre = 2;
-        int x_centre = parts[i_centre].getligne();
-        int y_centre = parts[i_centre].getcolonne();
-        for (int i=0; i<4; i++)
-        {
-            int x = parts[i].getligne();
-            int y = parts[i].getcolonne();
-            tab->changement_position(x, y, y-y_centre+x_centre, x_centre-x+y_centre, &parts[i]);
+        int x_centre = parts[i_centre].getcolonne();
+        int y_centre = parts[i_centre].getligne();
+
+        int x_cur, y_cur, dx, dy, j;
+        int colonne_av[3], ligne_av[3], colonne_ap[3], ligne_ap[3], indices[3];
+        for(int i=0; i<4; i++){
+            if(i!=i_centre){
+                if (i<i_centre) j=i;
+                else j=i-1;
+                x_cur = parts[i].getcolonne();
+                y_cur = parts[i].getligne();
+                dx = x_cur-x_centre; dy = y_cur-y_centre;
+                indices[j]      = i;
+                colonne_av[j]   = x_cur;
+                ligne_av[j]     = y_cur;
+                colonne_ap[j]   = x_centre-dy;
+                ligne_ap[j]     = y_centre+dx;
+
+  //              qDebug() << "[" << i << "]" << "(" << ligne_av[j] << "," << colonne_av[j] << ") -> (" << ligne_ap[j] << "," << colonne_ap[j] << ")";
+            }
         }
+
+        /* puisqu'il y en a 3 et que ça tourne de 90°, il y en a forcément 1 qui ne remplacera pas un autre, on le cherche */
+        bool remplace = false;
+        int tmp;
+        for(int i=0; i<3; i++)
+        {
+            remplace = false;
+            for(int j=0; j<3; j++)
+                if(j!=i && (colonne_ap[i]==colonne_av[j]) && (ligne_ap[i]==ligne_av[j]) )
+                    remplace = true;
+
+            /* on fait passer en 1er s'il remplace personne, il y en aura au moins un des 3 dans ce cas */
+            if(!remplace)
+            {
+//                qDebug() << "(" << ligne_av[i] << "," << colonne_av[i] << ")" << "pousse en 1er !";
+                for(int j=i-1; j>=0; j--)
+                {
+                    tmp = colonne_av[j+1]; colonne_av[j+1] = colonne_av[j]; colonne_av[j] = tmp;
+                    tmp = colonne_ap[j+1]; colonne_ap[j+1] = colonne_ap[j]; colonne_ap[j] = tmp;
+                    tmp = ligne_av[j+1]; ligne_av[j+1] = ligne_av[j]; ligne_av[j] = tmp;
+                    tmp = ligne_ap[j+1]; ligne_ap[j+1] = ligne_ap[j]; ligne_ap[j] = tmp;
+                    tmp = indices[j+1]; indices[j+1] = indices[j]; indices[j] = tmp;
+                }
+            }
+        }
+        /* à ce stade, on sait que le 1er remplace personne, il faut s'assurer qu'on est pas dans le cas de T et que le 2e remplace pas le 3, on échange sinon */
+        if( (colonne_ap[1] == colonne_av[2]) && (ligne_ap[1] == ligne_av[2]) )
+        {
+            tmp = colonne_av[1]; colonne_av[1] = colonne_av[2]; colonne_av[2] = tmp;
+            tmp = colonne_ap[1]; colonne_ap[1] = colonne_ap[2]; colonne_ap[2] = tmp;
+            tmp = ligne_av[1]; ligne_av[1] = ligne_av[2]; ligne_av[2] = tmp;
+            tmp = ligne_ap[1]; ligne_ap[1] = ligne_ap[2]; ligne_ap[2] = tmp;
+            tmp = indices[1]; indices[1] = indices[2]; indices[2] = tmp;
+        }
+
+        /* maintenant on peut faire tourner la piece */
+        for(int i=0; i<3; i++)
+        {
+//            qDebug() << "(" << ligne_av[i] << "," << colonne_av[i] << ") -> (" << ligne_ap[i] << "," << colonne_ap[i] << ")";
+            tab->changement_position(ligne_av[i], colonne_av[i], ligne_ap[i], colonne_ap[i], &parts[indices[i]]);
+        }
+
         rot = (rot+1) %4;
     }
-};
+}

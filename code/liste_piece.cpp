@@ -47,7 +47,16 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             break;
 
         case 2:
-            // Pièce 3 : "L"
+            // Pièce 3 : "T"
+            p1->setcoordonnees(0,-1);
+            p2->setcoordonnees(0,0);
+            p3->setcoordonnees(0,1);
+            p4->setcoordonnees(1,0);
+            blocs = {*p1, *p2, *p3, *p4};
+            break;
+
+        case 3:
+            // Pièce 4 : "L"
             p1->setcoordonnees(1,-1);
             p2->setcoordonnees(0,-1);
             p3->setcoordonnees(0,0);
@@ -55,8 +64,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 3:
-            // Pièce 4 : "J"
+        case 4:
+            // Pièce 5 : "J"
             p1->setcoordonnees(0,-1);
             p2->setcoordonnees(0,0);
             p3->setcoordonnees(0,1);
@@ -64,8 +73,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 4:
-            // Pièce 5 : "Z"
+        case 5:
+            // Pièce 6 : "Z"
             p1->setcoordonnees(0,-1);
             p2->setcoordonnees(0,0);
             p3->setcoordonnees(1,0);
@@ -73,8 +82,8 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
 
-        case 5:
-            // Pièce 6 : "S"
+        case 6:
+            // Pièce 7 : "S"
             p1->setcoordonnees(1,-1);
             p2->setcoordonnees(1,0);
             p3->setcoordonnees(0,0);
@@ -82,7 +91,7 @@ std::vector<part_piece> liste_piece(int num, int identifiant)
             blocs = {*p1, *p2, *p3, *p4};
             break;
         default:
-            qDebug() << "Numero de piece non connu\n";
+            qDebug() << "Numero de piece non connu";
             blocs = {-1,-1,-1,-1};
     }
     return blocs;
