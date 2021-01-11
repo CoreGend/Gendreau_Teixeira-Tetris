@@ -1,6 +1,6 @@
 11/01/2021
 principaux :
-- correction de l'erreur permettant aux pièces de traverser les murs
+- correction de l'erreur permettant aux pièces de traverser les murs et remplacer des pièces
 
 10/10/2021 (Corentin)
 principaux:

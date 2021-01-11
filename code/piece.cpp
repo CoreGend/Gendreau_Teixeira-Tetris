@@ -243,6 +243,9 @@ void piece::rotation(tableau* tab)
     {
         //la piece va tourner autour du centre
         int canRotate = true;;
+        int largeur = tab->getlargeur();
+        int hauteur = tab->gethauteur();
+        int remplace;
         int i_centre = 1;
         if (num_piece == 3 || num_piece == 6) i_centre = 2;
         int x_centre = parts[i_centre].getcolonne();
@@ -262,7 +265,11 @@ void piece::rotation(tableau* tab)
                 ligne_av[j]     = y_cur;
                 colonne_ap[j]   = x_centre-dy;
                 ligne_ap[j]     = y_centre+dx;
-                if(colonne_ap[j] < 0 || colonne_ap[j] >= tab->getlargeur()) canRotate = false;
+                if(colonne_ap[j] < 0 || colonne_ap[j] >= largeur) canRotate = false;
+                if(ligne_ap[j]>=hauteur) canRotate = false;
+                remplace = tab->getliste()[colonne_ap[j]+ligne_ap[j]*largeur].getidentifiant();
+                if(remplace!=identifiant && remplace!=0) canRotate = false;
+
   //              qDebug() << "[" << i << "]" << "(" << ligne_av[j] << "," << colonne_av[j] << ") -> (" << ligne_ap[j] << "," << colonne_ap[j] << ")";
             }
         }
