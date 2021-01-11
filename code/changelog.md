@@ -1,3 +1,7 @@
+11/01/2021
+principaux :
+- correction de l'erreur permettant aux pièces de traverser les murs
+
 10/10/2021 (Corentin)
 principaux:
 - correction des mouvements des pièces (rotation et déplacements)

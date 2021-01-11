@@ -242,6 +242,7 @@ void piece::rotation(tableau* tab)
     if(num_piece != 1)//la piece 1 ne tourne pas, carré
     {
         //la piece va tourner autour du centre
+        int canRotate = true;;
         int i_centre = 1;
         if (num_piece == 3 || num_piece == 6) i_centre = 2;
         int x_centre = parts[i_centre].getcolonne();
@@ -261,11 +262,12 @@ void piece::rotation(tableau* tab)
                 ligne_av[j]     = y_cur;
                 colonne_ap[j]   = x_centre-dy;
                 ligne_ap[j]     = y_centre+dx;
-
+                if(colonne_ap[j] < 0 || colonne_ap[j] >= tab->getlargeur()) canRotate = false;
   //              qDebug() << "[" << i << "]" << "(" << ligne_av[j] << "," << colonne_av[j] << ") -> (" << ligne_ap[j] << "," << colonne_ap[j] << ")";
             }
         }
 
+        if(canRotate){
         /* puisqu'il y en a 3 et que ça tourne de 90°, il y en a forcément 1 qui ne remplacera pas un autre, on le cherche */
         bool remplace = false;
         int tmp;
@@ -308,5 +310,7 @@ void piece::rotation(tableau* tab)
         }
 
         rot = (rot+1) %4;
+        }
+        else{ qDebug() << "impossible de tourner"; }
     }
 }
