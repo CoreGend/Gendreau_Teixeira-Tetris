@@ -1,3 +1,7 @@
+12/01/2021
+principaux :
+- ajout de la descente immédiate
+
 11/01/2021
 principaux :
 - correction de l'erreur permettant aux pièces de traverser les murs et remplacer des pièces

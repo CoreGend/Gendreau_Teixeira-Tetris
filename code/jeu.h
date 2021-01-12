@@ -22,6 +22,7 @@ public:
     void insertText(QString text);
     void removeText();
     void afficherBuffer();
+    void descenteImmediate();
 
 public slots:
     void start();

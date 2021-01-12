@@ -229,6 +229,9 @@ void jeu::keyPressEvent(QKeyEvent* event)
         scoreValue+=1;
         score->changerValeur(scoreValue);
     }
+    else if (event->key() == Qt::Key_Space){
+        descenteImmediate();
+    }
     }
 }
 
@@ -288,6 +291,21 @@ void jeu::afficherBuffer()
     buffer[1].placerPiece(buff, 0,6);
 
     afficherTableau(buff, pieceBuffer);
+}
+
+void jeu::descenteImmediate()
+{
+    int nbDescente = 0;
+//    qDebug() << "Hauteur initiale : " << pieceActive.getpieces()[0].getligne();
+    while(pieceActive.getpieces()[0].getmobile() == true)
+    {
+        pieceActive.mouvement(tab, "bas");
+        nbDescente++;
+    }
+//    qDebug() << "Hauteur finale : " << pieceActive.getpieces()[0].getligne();
+//    qDebug() << "Nombre points gagnes : " << nbDescente;
+    scoreValue += 2*nbDescente;
+    score->changerValeur(scoreValue);
 }
 
 /* lancement du jeu en créant le tableau de jeu, initialisant tout et créant le timer */
