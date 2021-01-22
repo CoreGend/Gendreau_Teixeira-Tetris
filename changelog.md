@@ -1,3 +1,9 @@
+22/01/2021
+- ajout du pseudo aléatoire avec la graine
+- modification de l'usage de l'identifiant (qui correspond maintenant à la réponse à 
+la question "c'est la combientième pièce créée ?")
+- pseudo aléatoire : numéro de pièce = graine/identifiant mod 7
+
 12/01/2021
 principaux :
 - ajout de la descente immédiate
