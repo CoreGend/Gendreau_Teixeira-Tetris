@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     afficheur.cpp \
     bouton.cpp \
+    globals.cpp \
     jeu.cpp \
     liste_piece.cpp \
     main.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 HEADERS += \
     afficheur.h \
     bouton.h \
+    globals.h \
     includers.h \
     jeu.h \
     liste_piece.h \

@@ -2,6 +2,7 @@
 #include "part_piece.hpp"
 #include "piece.hpp"
 #include "jeu.h"
+#include "globals.h"
 
 
 void saut()
@@ -13,7 +14,9 @@ jeu* onJoue;
 
 int main(int argc, char* argv[])
 {
-    srand(time(0));
+    srand(time(NULL));
+    seed = rand();
+
     QApplication app(argc, argv);
 
     onJoue = new jeu();

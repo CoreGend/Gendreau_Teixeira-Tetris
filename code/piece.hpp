@@ -2,6 +2,7 @@
 #include "includers.h"
 #include "part_piece.hpp"
 #include "tableau.hpp"
+#include "globals.h"
 
 
 
@@ -25,7 +26,7 @@ class piece
         };
         piece(int id): nbDePiece(4), identifiant(id), rot(0)
         {
-            num_piece = rand()%6;
+            num_piece = (seed/id)%7;
             //num_piece = 1;
         };
         piece(int num, int id): nbDePiece(4), num_piece(num), identifiant(id), rot(0) {};

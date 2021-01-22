@@ -36,7 +36,8 @@ private :
         nbLigneEffacees = 0,//nombre de lignes effacées
         iter = 0,   //nombre de rafraichissement de la fenetre - réinitialisé lorsque le compteur atteint numDiff
         diff = 1,   //difficulté de jeu
-        numDiff;    //nombre de rafraichissement de l'image avant de descendre une pièce automatiquement
+        numDiff,    //nombre de rafraichissement de l'image avant de descendre une pièce automatiquement
+        nombrePiece = 1; //nombre de pieces créées
     bool    enJeu = false,//faux tant que le timer n'est pas initialisé, évite de l'activer plusieurs fois
             pauseActive = false,
             finPartie = false;//faux tant que la partie n'est pas finie

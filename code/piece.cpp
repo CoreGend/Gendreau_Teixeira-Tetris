@@ -1,6 +1,7 @@
 #include "piece.hpp"
 #include "liste_piece.h"
 #include "includers.h"
+#include "globals.h"
 
 int piece::getndDePiece() const
 { return nbDePiece; }

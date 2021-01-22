@@ -130,7 +130,7 @@ void jeu::afficherFenetreJeu()
 /* génération d'une pièce */
 piece jeu::genererPiece()
 {
-    piece new_piece;
+    piece new_piece(nombrePiece);
     new_piece._intit_(tab);
     return new_piece;
 }
@@ -314,9 +314,10 @@ void jeu::start(){
     buff = new tableau(2,9);
     removeText();
 
-    pieceActive = genererPiece();
-    buffer[0] = piece();
-    buffer[1] = piece();
+    pieceActive = piece(nombrePiece++);
+    pieceActive._intit_(tab);
+    buffer[0] = piece(nombrePiece++);
+    buffer[1] = piece(nombrePiece++);
 
     diff = 1; newDiff();
 
@@ -357,7 +358,7 @@ void jeu::new_tick()
             {
                pieceActive = buffer[0];
                buffer[0] = buffer[1];
-               buffer[1] = piece();
+               buffer[1] = piece(nombrePiece);nombrePiece++;
                pieceActive._intit_(tab);
                afficherBuffer();
             }
