@@ -31,37 +31,37 @@ bool piece::init_piece_standard(tableau* tab)
             // Pièce 2 : "O"
             for (int i=3; i>1; i--)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
-                    esp_libre = 0;
+                    esp_libre = false;
             break;
         
         case 2:
             // Pièce 3 : "T"
             if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
-                esp_libre = 0;
+                esp_libre = false;
             break;
         case 3:
             // Pièce 4 : "L"
             if ((*tab)(parts[0].getligne(), parts[0].getcolonne()).getidentifiant() != 0)
-                esp_libre = 0;
+                esp_libre = false;
             break;
         case 4:
             // Pièce 5 : "J"
             if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
-                esp_libre = 0;
+                esp_libre = false;
             break;
 
         case 5:
             // Pièce 6 : "Z"
             for (int i=3; i>1; i--)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
-                    esp_libre = 0;
+                    esp_libre = false;
             break;
 
         case 6:
             // Pièce 7 : "S"
             for (int i=0; i<3; i++)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
-                    esp_libre = 0;
+                    esp_libre = false;
             break;
     }
     return esp_libre;
