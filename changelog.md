@@ -1,3 +1,6 @@
+23/01/2021
+
+
 22/01/2021
 - ajout du pseudo aléatoire avec la graine
 - modification de l'usage de l'identifiant (qui correspond maintenant à la réponse à 
