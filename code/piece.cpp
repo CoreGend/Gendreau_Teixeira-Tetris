@@ -18,6 +18,7 @@ std::vector<part_piece> piece::getpieces() const
 void piece::setidentifiant(int id)
 { identifiant = id; }
 
+
 bool piece::init_piece_standard(tableau* tab)
 {
     bool esp_libre = true;
@@ -26,51 +27,11 @@ bool piece::init_piece_standard(tableau* tab)
         parts[i].setligne(parts[i].getligne()+1);
         parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2)-1);
     }
-    switch (num_piece)
-    {
-        case 0:
-            // Pièce 1 : "I", rien a vérifiéer
-            break;
-        
-        case 1:
-            // Pièce 2 : "O"
-            for (int i=3; i>1; i--)
+    for (int i=0; i<nbDePiece; i++)
                 if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
                     esp_libre = false;
-            break;
-        
-        case 2:
-            // Pièce 3 : "T"
-            if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
-                esp_libre = false;
-            break;
-        case 3:
-            // Pièce 4 : "L"
-            if ((*tab)(parts[0].getligne(), parts[0].getcolonne()).getidentifiant() != 0)
-                esp_libre = false;
-            break;
-        case 4:
-            // Pièce 5 : "J"
-            if ((*tab)(parts[3].getligne(), parts[3].getcolonne()).getidentifiant() != 0)
-                esp_libre = false;
-            break;
-
-        case 5:
-            // Pièce 6 : "Z"
-            for (int i=3; i>1; i--)
-                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
-                    esp_libre = false;
-            break;
-
-        case 6:
-            // Pièce 7 : "S"
-            for (int i=0; i<3; i++)
-                if ((*tab)(parts[i].getligne(), parts[i].getcolonne()).getidentifiant() != 0)
-                    esp_libre = false;
-            break;
-    }
     return esp_libre;
-};
+}
 
 void piece::_intit_(tableau* tab)
 {
@@ -79,12 +40,9 @@ void piece::_intit_(tableau* tab)
     if (!init_standard_possible) std::cout << "INITIALISATION SPECIALE !!!!" << std::endl;
     for (int i=0; i<nbDePiece; i++)
     {
-        //parts[i].setcolonne(parts[i].getcolonne() + (int)(tab->getlargeur()/2)-1); --> Déplacé dans la vérif init_piece_standard
         if (init_standard_possible)
         {
-            //parts[i].setligne(parts[i].getligne()+1);
             (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
-            //(*tab)(parts[i].getligne() + 1, parts[i].getcolonne()) = parts[i];
         }
         else
             (*tab)(parts[i].getligne()-1, parts[i].getcolonne()) = parts[i];
@@ -103,17 +61,6 @@ void piece::placerPiece(tableau* tab, int hauteur, int largeur)
         (*tab)(y,x) = parts[i];
     }
 }
-
-/* je voulais utiliser cette fonction pour vérifier si une part piece fait partie de la même pièce que celle que l'on considère
-    pour éviter que les pièces voient leurs propres parties quand elles vérifient si elles peuvent bouger sur les côtés...
-bool meme_part_piece(part_piece* pp, piece p)
-{
-    bool meme = false;
-    for (int i=0; i<p.getndDePiece(); i++)
-        if (pp == &(p.getpieces()[i])) meme = true;
-    return meme;
-}
-*/
 
 bool piece::place_libre(tableau tab, int lig, int col)
 {
