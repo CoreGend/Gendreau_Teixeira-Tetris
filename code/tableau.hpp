@@ -14,6 +14,14 @@ les lignes et colonnes seront numérotées de 0 à longueur-1 (resp: largeur-1)
         std::vector<part_piece> liste;
     
     public:
+        tableau(tableau* tab): hauteur((*tab).gethauteur()), largeur((*tab).getlargeur()), partie_finie((*tab).getpartie_finie())
+        {
+            for (int i=0; i < hauteur*largeur; i++)
+            {
+                part_piece* pp = new part_piece((*tab).getliste()[i]);
+                liste.push_back((*pp));
+            }
+        }
         tableau(int hauteur, int largeur): hauteur(hauteur), largeur(largeur), partie_finie(0)
         {
             for (int i=0; i < hauteur*largeur; i++)

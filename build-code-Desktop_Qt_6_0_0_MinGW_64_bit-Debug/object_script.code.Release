@@ -1,0 +1,12 @@
+release/afficheur.o
+release/bouton.o
+release/globals.o
+release/jeu.o
+release/liste_piece.o
+release/main.o
+release/part_piece.o
+release/piece.o
+release/tableau.o
+release/moc_afficheur.o
+release/moc_bouton.o
+release/moc_jeu.o

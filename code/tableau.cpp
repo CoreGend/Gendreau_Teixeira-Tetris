@@ -26,8 +26,10 @@ void tableau::affichage()
     {
         for (int j=0; j<largeur; j++)
         {
-            qDebug() << (*this)(i,j).getidentifiant() << " ";
+            //qDebug() << (*this)(i,j).getidentifiant() << " ";
+            std::cout << (*this)(i,j).getidentifiant() << " ";
         }
+        std::cout << std::endl;
     }
 };
 

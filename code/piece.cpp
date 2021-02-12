@@ -33,11 +33,11 @@ bool piece::init_piece_standard(tableau* tab)
     return esp_libre;
 }
 
-void piece::_intit_(tableau* tab)
+void piece::_init_(tableau* tab)
 {
     parts = liste_piece(num_piece, identifiant);
     bool init_standard_possible = init_piece_standard(tab);
-    if (!init_standard_possible) std::cout << "INITIALISATION SPECIALE !!!!" << std::endl;
+    //if (!init_standard_possible) std::cout << "INITIALISATION SPECIALE !!!!" << std::endl;
     for (int i=0; i<nbDePiece; i++)
     {
         if (init_standard_possible)

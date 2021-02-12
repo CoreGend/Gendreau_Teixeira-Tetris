@@ -18,6 +18,14 @@ class piece
         { I, O, L, J, Z, S };
 
     public:
+        piece(piece* p): nbDePiece((*p).getndDePiece()), num_piece((*p).getnum_piece()), identifiant((*p).getidentifiant()), rot(0)
+        {
+            for (int i=0; i<num_piece; i++)
+            {
+                part_piece* pp = new part_piece((*p).getpieces()[i]);
+                parts.push_back((*pp));
+            }
+        }
         piece(): nbDePiece(4), rot(0)
         {
             num_piece = rand()%7;
@@ -39,7 +47,7 @@ class piece
         void setidentifiant(int id);
         void setpieces(std::vector<part_piece> blocs);
 
-        void _intit_(tableau* tab);
+        void _init_(tableau* tab);
         void placerPiece(tableau* tab, int hauteur, int largeur);
         bool init_piece_standard(tableau* tab);
 

@@ -6,6 +6,8 @@
 #include "afficheur.h"
 #include "piece.hpp"
 
+#include <vector>
+
 class jeu:public QGraphicsView{
     Q_OBJECT
 public:
@@ -24,6 +26,8 @@ public:
     void afficherBuffer();
     void descenteImmediate();
 
+    void recherche_moves_ai(int prev_nb_trous);
+
 public slots:
     void start();
     void new_tick();
@@ -38,6 +42,14 @@ private :
         diff = 1,   //difficulté de jeu
         numDiff,    //nombre de rafraichissement de l'image avant de descendre une pièce automatiquement
         nombrePiece = 1; //nombre de pieces créées
+
+    std::vector<int> ai_move; //Mouvements que va suivre l'ai : -1, 0, 1 pour gauche, tourner et droite
+    int i_move = 0;     //Indice du prochain movement dans le vecteur ci dessus.
+    int iter_ai = 0;    //Comme l'autre iter, mais pour les mouvements de l'ai
+    piece pieceActive_fantome;  //Pour voir les positions d'arrêts à l'avances
+    tableau* tab_fantome;       //Pareil
+    void move(int i, piece p, tableau* t);
+
     bool    enJeu = false,//faux tant que le timer n'est pas initialisé, évite de l'activer plusieurs fois
             pauseActive = false,
             finPartie = false;//faux tant que la partie n'est pas finie

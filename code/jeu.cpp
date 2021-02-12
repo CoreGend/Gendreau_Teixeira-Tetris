@@ -131,7 +131,7 @@ void jeu::afficherFenetreJeu()
 piece jeu::genererPiece()
 {
     piece new_piece(nombrePiece);
-    new_piece._intit_(tab);
+    new_piece._init_(tab);
     return new_piece;
 }
 
@@ -315,7 +315,7 @@ void jeu::start(){
     removeText();
 
     pieceActive = piece(nombrePiece++);
-    pieceActive._intit_(tab);
+    pieceActive._init_(tab);
     buffer[0] = piece(nombrePiece++);
     buffer[1] = piece(nombrePiece++);
 
@@ -341,7 +341,200 @@ void jeu::start(){
     }
 }
 
-/* une itération de jeu, lancé automatiquement par le timer */
+
+int nb_trous(tableau* tab)
+{
+    //Debugage :
+    for (int j=0; j<(*tab).getlargeur(); j++)
+    {
+        (*tab)(0,j).setidentifiant(0);
+        (*tab)(1,j).setidentifiant(0);
+    }
+
+    int nb = 0;
+    for (int j=0; j<(*tab).getlargeur(); j++)
+    {
+        int nb_vide = 0;
+        for (int i=(*tab).gethauteur()-1; i>=0; i--)
+        {
+            if ((*tab)(i,j).getidentifiant() == 0) nb_vide++;
+            else 
+            {
+                nb += nb_vide;
+                nb_vide = 0;
+            }
+        }
+    }
+    return nb;
+}
+
+
+int calcul_poids(piece piece, tableau* t, int prev_nb_trous)
+{
+    //Ligne complétée ?
+    int poids = 0;
+    int k = (*t).reconnaissance_ligne();
+    while (k != -1)
+    {
+        poids -= 30;
+        (*t).effacement_ligne(k);
+        k = (*t).reconnaissance_ligne();
+    }
+
+    int nb_t = nb_trous(t);
+    t->affichage();
+    std::cout << "nvx nb_trous : " << nb_t << std::endl;
+    poids += 5*abs(nb_t - prev_nb_trous);   //constante expérimentale, pour que les trous soient plus désavantagés que la hauteur d'arrivée.
+    int hauteur_max = 0;
+    for (part_piece pp : piece.getpieces())
+        if (hauteur_max < (*t).gethauteur() - pp.getligne()-1)
+            hauteur_max = (*t).gethauteur() - pp.getligne()-1;
+    poids += hauteur_max;
+    std::cout << "H max : " << hauteur_max << std::endl;
+    std::cout << "poids : " << poids << std::endl;
+
+    
+
+    return poids;
+}
+
+
+/* Algo de recherche des mouvements de l'ai */
+void jeu::recherche_moves_ai(int prev_nb_trous)
+{
+    std::vector<std::vector<int>> possible_moves(52);   //vecteur contenant tous les déplacements possibles en commencant par le poids de celle-ci (0 par défaut).
+    for (int i=0; i<4; i++)
+    {
+        for (int j=0; j<13; j++)
+        {
+            possible_moves[i*12+j].push_back(0); //Poids
+            for (int k=0; k<i; k++) possible_moves[i*13+j].push_back(0); //Entre 0 et 3 rotations possibles
+            for (int k=0; k<5-j; k++) possible_moves[i*13+j].push_back(-1); //Plus ou moins à gauche
+            for (int k=0; k<j-6; k++) possible_moves[i*13+j].push_back(1); //Plus ou moins à droite
+        }
+    }
+
+    /* AI Complètement aléatoire 
+    srand (time(NULL));
+    int i = (1231*rand())%40;
+    for (int x : possible_moves[i])
+        ai_move.push_back(x);
+    */
+    
+    /* AI maligne */
+    //calcul de la meilleur trajectoire
+    for (int k=0; k<52; k++)
+    {
+        //copie de tableau, pour chaque possibilité de placement de la pièce
+        tableau* t = new tableau(tab_fantome);
+        pieceActive_fantome._init_(t);
+        
+        //descente de la piece fantome dans le tableau fantome
+        for (int i=1; i<(int)possible_moves[k].size()-1; i++)
+        {
+            switch(possible_moves[k][i])
+            {
+                case -1:
+                    pieceActive_fantome.mouvement(t, "gauche");
+                    break;
+                case 0:
+                    pieceActive_fantome.rotation(t);
+                    break;
+                case 1:
+                    pieceActive_fantome.mouvement(t, "droite");
+                    break;
+                default:
+                    std::cout << "Error in move research !!\n";
+            }
+        }
+        while(pieceActive_fantome.getpieces()[0].getmobile() == true)
+           pieceActive_fantome.mouvement(t, "bas");
+        
+        //def du poids
+        std::cout << "NUMERO : " << k << std::endl;
+        possible_moves[k][0] = calcul_poids(pieceActive_fantome, t, prev_nb_trous);
+    }
+
+    //recherche position de poids minimal
+    int min = 10000, i_min = -1;
+    for (int k=0; k<40; k++)
+    {
+        if (possible_moves[k][0]<min)
+        {
+            min = possible_moves[k][0];
+            i_min = k;
+        }
+    }
+
+    ai_move = possible_moves[i_min];
+    std::cout << "Poids min : " << min << "en " << i_min << std::endl;
+    for (int x : ai_move) std::cout << x << " ";
+}
+
+
+/* une itération de jeu POUR AI, lancé automatiquement par le timer */
+void jeu::new_tick()
+{
+    iter_ai++;
+    if(iter_ai >= (int)(numDiff/10) && !pauseActive && !finPartie)
+    {
+        if (i_move < (int) ai_move.size()-1)
+            switch(ai_move[i_move])
+            {
+                case -1:
+                    pieceActive.mouvement(tab, "gauche");
+                    std::cout << "gauche ";
+                    break;
+                case 0:
+                    pieceActive.rotation(tab);
+                    std::cout << "rotation ";
+                    break;
+                case 1:
+                    pieceActive.mouvement(tab, "droite");
+                    std::cout << "droite ";
+                    break;
+                default:
+                    std::cout << "Error in move research !!\n";
+            }
+        else descenteImmediate();
+        i_move++;
+        iter_ai = 0;
+    }
+    iter++;
+    if(iter >= numDiff && !pauseActive && !finPartie)
+    {
+        pieceActive.mouvement(tab, "bas");
+        iter = 0;
+    }
+    if(pieceActive.getpieces()[0].getmobile() == false){
+            effacerLigne();
+            tab->verif_fin_partie();
+            finPartie = tab->getpartie_finie();
+            if(!finPartie && !pauseActive)
+            {
+               pieceActive = buffer[0];
+               pieceActive_fantome = new piece(&buffer[0]);
+               tab_fantome = tab;
+               buffer[0] = buffer[1];
+               buffer[1] = piece(nombrePiece);nombrePiece++;
+               int prev_nb_trous = nb_trous(tab);
+               std::cout << "nb trous : " << prev_nb_trous << std::endl;
+               pieceActive._init_(tab);
+               ai_move.clear();
+               recherche_moves_ai(prev_nb_trous);
+               i_move = 1;
+               afficherBuffer();
+            }
+    }
+    if(finPartie)
+        pauseGame();
+
+    afficherTableau(tab, pieceAffichees);
+}
+
+
+/* une itération de jeu POUR JOUEUR, lancé automatiquement par le timer */
+/*
 void jeu::new_tick()
 {
     iter++;
@@ -368,6 +561,7 @@ void jeu::new_tick()
 
     afficherTableau(tab, pieceAffichees);
 }
+*/
 
 void jeu::pauseGame()
 {

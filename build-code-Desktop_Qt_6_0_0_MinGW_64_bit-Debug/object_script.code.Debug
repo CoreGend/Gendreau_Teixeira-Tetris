@@ -1,0 +1,12 @@
+debug/afficheur.o
+debug/bouton.o
+debug/globals.o
+debug/jeu.o
+debug/liste_piece.o
+debug/main.o
+debug/part_piece.o
+debug/piece.o
+debug/tableau.o
+debug/moc_afficheur.o
+debug/moc_bouton.o
+debug/moc_jeu.o
