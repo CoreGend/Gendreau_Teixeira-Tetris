@@ -2,7 +2,7 @@
 
 std::vector<part_piece> liste_piece(int num, int identifiant)
 {
-    /* fonctionne pour des pièces constituées de 4 parties de pièces seuelemnt pour le moment. */
+    /* fonctionne pour des pièces constituées de 4 parties de pièces. */
 
     part_piece* p1 = (part_piece*) malloc(sizeof(part_piece));
     part_piece* p2 = (part_piece*) malloc(sizeof(part_piece));

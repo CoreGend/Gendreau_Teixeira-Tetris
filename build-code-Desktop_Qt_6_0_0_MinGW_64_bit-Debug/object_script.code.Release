@@ -2,6 +2,7 @@ release/afficheur.o
 release/bouton.o
 release/globals.o
 release/jeu.o
+release/jeu_ai.o
 release/liste_piece.o
 release/main.o
 release/part_piece.o

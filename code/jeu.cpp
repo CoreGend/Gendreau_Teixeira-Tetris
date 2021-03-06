@@ -316,12 +316,6 @@ void jeu::start(){
 
     pieceActive = piece(nombrePiece++);
     pieceActive._init_(tab);
-    /* Pour l'ia */
-    if (pieceActive.getnum_piece()==2 || pieceActive.getnum_piece()==3 || pieceActive.getnum_piece()==4)
-    {
-        pieceActive.rotation(tab);
-        pieceActive.rotation(tab);
-    }
 
     buffer[0] = piece(nombrePiece++);
     buffer[1] = piece(nombrePiece++);
@@ -349,6 +343,8 @@ void jeu::start(){
 }
 
 
+
+
 int nb_trous(tableau* tab, bool eff)
 {
     //Debugage :
@@ -365,12 +361,12 @@ int nb_trous(tableau* tab, bool eff)
         std::vector<int> liste;
         for (int i=(*tab).gethauteur()-1; i>=0; i--)
         {
-            if ((*tab)(i,j).getidentifiant() == 0) 
+            if ((*tab)(i,j).getidentifiant() == 0)
             {
                 nb_vide++;
                 liste.push_back(i);
             } // = (nb_vide+1)*2;
-            else 
+            else
             {
                 nb += nb_vide;
                 nb_vide = 0;
@@ -433,14 +429,8 @@ void jeu::recherche_moves_ai(int prev_nb_trous)
         }
     }
 
-    /* AI Complètement aléatoire 
-    srand (time(NULL));
-    int i = (1231*rand())%40;
-    for (int x : possible_moves[i])
-        ai_move.push_back(x);
-    */
-    
-    /* AI maligne */
+
+    // AI maligne
     //calcul de la meilleur trajectoire
     std::cout << "id PIECE : " << pieceActive_fantome.getidentifiant() << std::endl;
     for (int k=0; k<52; k++)
@@ -482,7 +472,7 @@ void jeu::recherche_moves_ai(int prev_nb_trous)
         }
         while(pieceActive_fantome.getpieces()[0].getmobile() == true)
            pieceActive_fantome.mouvement(t, "bas");
-        
+
         //Debugage :
         for (int j=3; j<7; j++)
         {
@@ -512,7 +502,6 @@ void jeu::recherche_moves_ai(int prev_nb_trous)
     //for (int x : ai_move) std::cout << x << " ";
     //std::cout << std::endl;
 }
-
 
 /* une itération de jeu POUR AI, lancé automatiquement par le timer */
 void jeu::new_tick()
@@ -593,8 +582,10 @@ void jeu::new_tick()
 
 
 
-/* une itération de jeu POUR JOUEUR, lancé automatiquement par le timer
 
+
+
+/* une itération de jeu POUR JOUEUR, lancé automatiquement par le timer
 void jeu::new_tick()
 {
     iter++;

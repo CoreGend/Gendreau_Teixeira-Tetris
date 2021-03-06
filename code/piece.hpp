@@ -4,8 +4,6 @@
 #include "tableau.hpp"
 #include "globals.h"
 
-
-
 class piece
 {
     private:
@@ -29,13 +27,11 @@ class piece
         piece(): nbDePiece(4), rot(0)
         {
             num_piece = rand()%7;
-            //num_piece = 1;
             identifiant = rand()%1000 +1;
         };
         piece(int id): nbDePiece(4), identifiant(id), rot(0)
         {
             num_piece = (seed/id)%7;
-            //num_piece = 1;
         };
         piece(int num, int id): nbDePiece(4), num_piece(num), identifiant(id), rot(0) {};
 

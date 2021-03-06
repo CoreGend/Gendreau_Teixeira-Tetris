@@ -28,13 +28,14 @@ public:
 
     void recherche_moves_ai(int prev_nb_trous);
 
+
 public slots:
-    void start();
-    void new_tick();
+    virtual void start();
+    virtual void new_tick();
     void pauseGame();
 
 
-private :
+protected :
     /*  éléments qui peuvent être modifiés en cours de partie */
     int scoreValue=0, //score actuel
         nbLigneEffacees = 0,//nombre de lignes effacées
@@ -48,7 +49,6 @@ private :
     int iter_ai = 0;    //Comme l'autre iter, mais pour les mouvements de l'ai
     piece pieceActive_fantome;  //Pour voir les positions d'arrêts à l'avances
     tableau* tab_fantome;       //Pareil
-    void move(int i, piece p, tableau* t);
 
     bool    enJeu = false,//faux tant que le timer n'est pas initialisé, évite de l'activer plusieurs fois
             pauseActive = false,

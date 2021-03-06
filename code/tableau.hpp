@@ -4,10 +4,9 @@
 
 class tableau
 {
-    /*
-Juste pour être sûr, la longueur correspond à la hauteur du tableau
-les lignes et colonnes seront numérotées de 0 à longueur-1 (resp: largeur-1)
-    */
+    /* Juste pour être sûr, la longueur correspond à la hauteur du tableau
+     * les lignes et colonnes seront numérotées de 0 à longueur-1 (resp: largeur-1)
+     */
     private:
         int hauteur, largeur;
         bool partie_finie;

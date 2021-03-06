@@ -3,6 +3,9 @@
 #include "includers.h"
 #include "globals.h"
 
+/*
+ * Méthodes d'attributs
+ */
 int piece::getndDePiece() const
 { return nbDePiece; }
 
@@ -18,9 +21,12 @@ std::vector<part_piece> piece::getpieces() const
 void piece::setidentifiant(int id)
 { identifiant = id; }
 
-
+/*
+ * Méthodes supplémentaires
+ */
 bool piece::init_piece_standard(tableau* tab)
 {
+    /* Vérifie si l'on peut placer la pièce sur les 2e et 3e lignes. */
     bool esp_libre = true;
     for (int i=0; i<nbDePiece; i++)
     {
@@ -35,9 +41,11 @@ bool piece::init_piece_standard(tableau* tab)
 
 void piece::_init_(tableau* tab)
 {
+    /* Place la pièce dans le taleau tab
+     * Sur les lignes 2 et 3 si possible, sinon sur les lignes 1 et 2.
+     */
     parts = liste_piece(num_piece, identifiant);
     bool init_standard_possible = init_piece_standard(tab);
-    //if (!init_standard_possible) std::cout << "INITIALISATION SPECIALE !!!!" << std::endl;
     for (int i=0; i<nbDePiece; i++)
     {
         if (init_standard_possible)
@@ -45,7 +53,10 @@ void piece::_init_(tableau* tab)
             (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
         }
         else
-            (*tab)(parts[i].getligne()-1, parts[i].getcolonne()) = parts[i];
+        {
+            parts[i].setligne(parts[i].getligne()-1);
+            (*tab)(parts[i].getligne(), parts[i].getcolonne()) = parts[i];
+        }
     }
 };
 
@@ -64,6 +75,7 @@ void piece::placerPiece(tableau* tab, int hauteur, int largeur)
 
 bool piece::place_libre(tableau tab, int lig, int col)
 {
+    /* Vérifie si la case (lig,col) du tableau est vide (non occuppée par une partie de pièce). */
     bool libre = 1;
     int i=0;
     while (i<nbDePiece && libre)

@@ -2,6 +2,7 @@ debug/afficheur.o
 debug/bouton.o
 debug/globals.o
 debug/jeu.o
+debug/jeu_ai.o
 debug/liste_piece.o
 debug/main.o
 debug/part_piece.o

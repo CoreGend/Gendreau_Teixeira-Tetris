@@ -2,6 +2,9 @@
 #include "part_piece.hpp"
 #include "includers.h"
 
+/*
+ * Méthodes d'attributs
+ */
 int tableau::gethauteur() const
 { return this->hauteur; }
 
@@ -20,6 +23,9 @@ part_piece& tableau::operator () (int i, int j)
 part_piece tableau::operator () (int i, int j) const
 { return liste[i*largeur+j]; }
 
+/*
+ * Méthodes supplémentaires
+ */
 void tableau::affichage()
 {
     for (int i=0; i<hauteur; i++)
@@ -43,8 +49,9 @@ void tableau::changement_position(int prev_lig, int prev_col, int lig, int col, 
 
 int tableau::reconnaissance_ligne()
 {
-    //Renvoie l'indice de la ligne pleine si elle existe, -1 sinon.
-    //Ne detecte qu'une seule ligne, il faudra donc rappeler la fonction jusqu'à ce qu'elle ne détecte plus rien...
+    /* Renvoie l'indice de la ligne pleine si elle existe, -1 sinon.
+     * Ne detecte qu'une seule ligne, il faudra donc rappeler la fonction jusqu'à ce qu'elle ne détecte plus rien...
+     */
     for (int i=0; i<hauteur; i++)
     {
         int j=0;
@@ -61,7 +68,6 @@ int tableau::reconnaissance_ligne()
 
 void tableau::effacement_ligne(int k)
 {
-    //Il faudrait libérer l'espace des parties de pièces sur la ligne correspondantes avant de tout faire descendre....
     if (k>0)
     {
         for (int j=0; j<largeur; j++)
@@ -73,24 +79,21 @@ void tableau::effacement_ligne(int k)
                 i--;
             }
         }
-        for (int j=0; j<(*this).getlargeur(); j++)
-        {
-            part_piece pp(0,0,0);
-            (*this)(0,j).setidentifiant(0);
-        }
     }
 };
 
 void tableau::verif_fin_partie()
 {
-    /*pour le moment la partie se termine quand il y a un bout de piece sur la 2e ligne...
-    Car la 1e ligne est réservé aux apparitions de pièce si la 3e ligne est occuppée. */
+    /* Pour le moment la partie se termine quand il y a un bout de piece sur la 2e ligne...
+     * Car la 1e ligne est réservé aux apparitions de pièce si la 3e ligne est occuppée.
+     */
     for(int j=0; j<largeur; j++)
         if ((*this)(1,j).getidentifiant() != 0) partie_finie = true;
 };
 
 void tableau::reset()
 {
+    /* Remet le tableau à zéro */
     part_piece pieceVide(0,0,0);
     for(int i=0; i<hauteur; i++)
     {

@@ -13,6 +13,7 @@ SOURCES += \
     bouton.cpp \
     globals.cpp \
     jeu.cpp \
+    jeu_ai.cpp \
     liste_piece.cpp \
     main.cpp \
     part_piece.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     globals.h \
     includers.h \
     jeu.h \
+    jeu_ai.h \
     liste_piece.h \
     part_piece.hpp \
     piece.hpp \
