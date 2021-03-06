@@ -1,7 +1,6 @@
 #include "tableau.hpp"
 #include "part_piece.hpp"
 
-
 int part_piece::getligne()
 { return this->ligne; }
 

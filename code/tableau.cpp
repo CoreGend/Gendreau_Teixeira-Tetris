@@ -73,6 +73,11 @@ void tableau::effacement_ligne(int k)
                 i--;
             }
         }
+        for (int j=0; j<(*this).getlargeur(); j++)
+        {
+            part_piece pp(0,0,0);
+            (*this)(0,j).setidentifiant(0);
+        }
     }
 };
 
