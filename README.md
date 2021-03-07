@@ -19,7 +19,8 @@ Différentes choses ont été codées sur Qt:
 #### Un tétris fonctionnel pour un unique joueur
 L'interface propose plusieurs choses intéressantes en plus du jeu en lui-même. On voit évidemment le plateau de jeu, les pièces posées et celle qui est en train de tomber, mais aussi notre score actuel, les deux pièces suivantes, le nombre de lignes effacées, la difficultée du jeu (qui augmente naturellement au fur et à mesure du jeu tant que l'on ne pert pas). On peut également mettre le jeu sur pause à tout moment, relancer une nouvelle partie ou quitter le jeu grâce aux onglets en bas à gauche de l'interface.
 
-Les classes et méthodes sont assez intuitives et compréhensible avec leur nom, juste un petit détail sur le fonctionnement global du jeu: la grille de jeu (taleau.cpp) contient des 'part_pièce' (part_pièce.cpp : parties de pièces), et de même, chaque 'pièce' (pièce.cpp) contient des 'part_pièces'. Ainsi, on manipule une 'pièce' tant qu'elle n'est pas tombée (elle gère ses propores 'part_pièces'), puis la 'pièce' est laissée de côté. C'est par le tableau que seront ensuite manipulées les 'part_pièces' (par exemlpe lors d'effacement de ligne pour de déplacement...)
+Les classes et méthodes sont assez intuitives et compréhensible avec leur nom.
+Juste un petit détail sur le fonctionnement global du jeu: la grille de jeu (taleau.cpp) contient des 'part_pièce' (part_pièce.cpp : parties de pièces), et de même, chaque 'pièce' (pièce.cpp) contient des 'part_pièces'. Ainsi, on manipule une 'pièce' tant qu'elle n'est pas tombée (elle gère ses propores 'part_pièces'), puis la 'pièce' est laissée de côté. C'est par le tableau que seront ensuite manipulées les 'part_pièces' (par exemlpe lors d'effacement de ligne pour de déplacement...)
 
 
 #### Un IA qui joue seul
@@ -35,3 +36,4 @@ Problème principal rencontré:
     Le fait de créer des tableaux et des pièces fantômes en masse ne plaît pas beaucoup à l'espace mémoire il nous semble. Cela a pour conséquence des crashs réguliers de l'application... D'ailleurs il semblerait qu'exécuter le code IA en mode débuggage augmente significativement le temps de jeu sans crash. C'est un mystère...
 
 #### Un tétris sur réseau pour du multijoueur ?
+
