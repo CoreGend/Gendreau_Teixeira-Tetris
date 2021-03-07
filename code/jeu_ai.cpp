@@ -48,13 +48,13 @@ void jeu_ai::start(){
 
 int jeu_ai::nb_trous(tableau* tab, bool eff)
 {
-    /* Debugage :
+    /* Debugage :*/
     for (int j=3; j<7; j++)
     {
         (*tab)(0,j).setidentifiant(0);
         (*tab)(1,j).setidentifiant(0);
     }
-    */
+
 
     int nb = 0;
     for (int j=0; j<(*tab).getlargeur(); j++)
@@ -149,14 +149,14 @@ void jeu_ai::recherche_moves_ai(int prev_nb_trous)
         while(pieceActive_fantome.getpieces()[0].getmobile() == true)
            pieceActive_fantome.mouvement(t, "bas");
         
-        /* Debugage :
+        /* Debugage :*/
         for (int j=3; j<7; j++)
         {
             (*tab)(0,j).setidentifiant(0);
             (*tab)(1,j).setidentifiant(0);
             (*tab)(2,j).setidentifiant(0);
         }
-        */
+
 
         //def du poids
         possible_moves[k][0] = calcul_poids(pieceActive_fantome, t, prev_nb_trous);

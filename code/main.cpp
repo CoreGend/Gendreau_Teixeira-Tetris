@@ -21,13 +21,13 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-/* JEU TETRIS 1 JOUEUR*/
+/* JEU TETRIS 1 JOUEUR
     onJoue = new jeu();
     onJoue->show();
-
-/* JEU TETRIS 1 AI
+*/
+/* JEU TETRIS 1 AI*/
     AIjoue = new jeu_ai();
     AIjoue->show();
-*/
+
     return app.exec();
 }
