@@ -107,16 +107,16 @@ int jeu_ai::calcul_poids(piece piece, tableau* t, int prev_nb_trous)
 /* Algo de recherche de mouvement de l'ai */
 void jeu_ai::recherche_moves_ai(int prev_nb_trous)
 {
-    int nb_pos_moves = 44;
+    int nb_pos_moves = 52;
     std::vector<std::vector<int>> possible_moves(nb_pos_moves);   //vecteur contenant tous les déplacements possibles en commencant par le poids de celle-ci (0 par défaut).
     for (int i=0; i<4; i++)
     {
-        for (int j=0; j<11; j++)
+        for (int j=0; j<13; j++)
         {
-            possible_moves[i*11+j].push_back(0); //Poids
-            for (int k=0; k<i; k++) possible_moves[i*11+j].push_back(0); //Entre 0 et 3 rotations possibles
-            for (int k=0; k<5-j; k++) possible_moves[i*11+j].push_back(-1); //Plus ou moins à gauche
-            for (int k=0; k<j-5; k++) possible_moves[i*11+j].push_back(1); //Plus ou moins à droite
+            possible_moves[i*13+j].push_back(0); //Poids
+            for (int k=0; k<i; k++) possible_moves[i*13+j].push_back(0); //Entre 0 et 3 rotations possibles
+            for (int k=0; k<6-j; k++) possible_moves[i*13+j].push_back(-1); //Plus ou moins à gauche
+            for (int k=0; k<j-6; k++) possible_moves[i*13+j].push_back(1); //Plus ou moins à droite
         }
     }
     
