@@ -3,6 +3,7 @@
 #include "zoneJeu.h"
 #include "tableau.hpp"
 #include "piece.hpp"
+#include "jeu_ai.h"
 
 /* constructeur */
 jeu::jeu(QWidget *parent): QGraphicsView(parent)
@@ -14,6 +15,14 @@ jeu::jeu(QWidget *parent): QGraphicsView(parent)
     scene = new QGraphicsScene();
     scene->setSceneRect(0,0,800,600);
     setScene(scene);
+
+    socket = new QTcpSocket(this);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(receivedData()));
+    connect(socket, SIGNAL(connected()), this, SLOT(joined()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnect()));
+    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError error)));
+
+    messageSize = 0;
 
     afficherFenetreJeu();
 }
@@ -32,6 +41,18 @@ void jeu::afficherFenetreJeu()
     posy=180;
     difficulte->setPos(posx, posy);
     scene->addItem(difficulte);
+
+    bouton* serv = new bouton(QString("Ouvrir serveur"), 200,20);
+    posy=290;
+    serv->setPos(posx, posy);
+    connect(serv, SIGNAL(clicked()), this, SLOT(openServer()));
+    scene->addItem(serv);
+
+    bouton* joinServ = new bouton(QString("Rejoindre serveur"), 200,20);
+    posy=310;
+    joinServ->setPos(posx, posy);
+    connect(joinServ, SIGNAL(clicked()), this, SLOT(joinServer()));
+    scene->addItem(joinServ);
 
     bouton* lancer = new bouton(QString("Nouvelle partie"));
     posy=360;
@@ -125,7 +146,18 @@ void jeu::afficherFenetreJeu()
     posy=330;
     nbLigne->setPos(posx, posy);
     scene->addItem(nbLigne);
+
+    QGraphicsTextItem* scoreAdverseText = new QGraphicsTextItem("Score adverse");
+    posy=400;
+    scoreAdverseText->setPos(posx, posy);
+    scene->addItem(scoreAdverseText);
+
+    scoreAdverse = new afficheur();
+    posy=430;
+    scoreAdverse->setPos(posx, posy);
+    scene->addItem(scoreAdverse);
 }
+
 
 /* génération d'une pièce */
 piece jeu::genererPiece()
@@ -310,6 +342,11 @@ void jeu::descenteImmediate()
 
 /* lancement du jeu en créant le tableau de jeu, initialisant tout et créant le timer */
 void jeu::start(){
+    if(host && server->nbConnecte() == 1){
+        jeu_ai* AIjoue = new jeu_ai();
+        AIjoue->show();
+    }
+    if(host && multi) send_seed();
     tab = new tableau(22,10);
     buff = new tableau(2,9);
     removeText();
@@ -342,6 +379,35 @@ void jeu::start(){
     }
 }
 
+void jeu::send_score()
+{
+    QByteArray packet;
+    QDataStream out(&packet, QIODevice::WriteOnly);
+    QString message = QString::number(scoreValue);
+
+    out << (quint16) 0;
+    out << message;
+    out.device()->seek(0);
+    out << (quint16) (packet.size() - sizeof(quint16));
+
+    socket->write(packet);
+}
+
+void jeu::send_seed()
+{
+    QByteArray packet;
+    QDataStream out(&packet, QIODevice::WriteOnly);
+    QString message = QString::number(seed);
+
+    out << (quint16) 0;
+    out << message;
+    out.device()->seek(0);
+    out << (quint16) (packet.size() - sizeof(quint16));
+
+    socket->write(packet);
+}
+
+
 // une itération de jeu POUR JOUEUR, lancé automatiquement par le timer
 void jeu::new_tick()
 {
@@ -368,6 +434,8 @@ void jeu::new_tick()
         pauseGame();
 
     afficherTableau(tab, pieceAffichees);
+    if(multi)
+        send_score();
 }
 
 
@@ -382,6 +450,71 @@ void jeu::pauseGame()
         insertText(QString("Partie Finie"));
     if(!pauseActive && !finPartie)
         removeText();
+}
+
+void jeu::openServer()
+{
+    host = true;
+    server = new Serveur();
+}
+
+void jeu::joinServer()
+{
+    ip_address = QInputDialog::getText(this, "IP", "Entrez l'ip du serveur");
+
+    qDebug() << "Tentative de connection";
+
+    socket->abort(); //se déconnecte des autres serveurs
+    socket->connectToHost(ip_address, 37250);
+}
+
+void jeu::receivedData()
+{
+   QDataStream in(socket);
+
+   if(messageSize == 0)
+   {
+       if(socket->bytesAvailable() < (int) sizeof(quint16))
+           return;
+
+       in >> messageSize;
+   }
+
+   if(socket->bytesAvailable() < messageSize)
+       return;
+
+   QString receivedMessage;
+   in >> receivedMessage;
+
+   bool convReussie;
+   scoreAdvValue = receivedMessage.toInt(&convReussie, 10);
+   scoreAdverse->changerValeur(scoreAdvValue);
+
+   messageSize = 0;
+}
+
+void jeu::joined()
+{
+    qDebug() << "Connection au serveur réussie";
+    multi = true;
+}
+
+void jeu::disconnect()
+{
+    qDebug() << "Vous avez été déconnecté du serveur";
+    multi = false;
+}
+
+void jeu::socketError(QAbstractSocket::SocketError error)
+{
+    if(error == QAbstractSocket::HostNotFoundError)
+        qDebug() << "ERREUR: Le serveur n'a pas été trouvé";
+    else if(error == QAbstractSocket::ConnectionRefusedError)
+        qDebug() << "ERREUR: La connection a été refusée";
+    else if(error == QAbstractSocket::RemoteHostClosedError)
+        qDebug() << "ERREUR: Le serveur a été fermé";
+    else
+        qDebug() << "ERREUR";
 }
 
 void jeu::insertText(QString text)

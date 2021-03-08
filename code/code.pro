@@ -1,4 +1,5 @@
 QT       += core gui
+QT       += widgets network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +19,7 @@ SOURCES += \
     main.cpp \
     part_piece.cpp \
     piece.cpp \
+    serveur.cpp \
     tableau.cpp
 
 HEADERS += \
@@ -30,6 +32,7 @@ HEADERS += \
     liste_piece.h \
     part_piece.hpp \
     piece.hpp \
+    serveur.h \
     tableau.hpp
 
 # Default rules for deployment.

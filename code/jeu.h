@@ -5,6 +5,7 @@
 #include "tableau.hpp"
 #include "afficheur.h"
 #include "piece.hpp"
+#include "serveur.h"
 
 #include <vector>
 
@@ -28,12 +29,20 @@ public:
 
     void recherche_moves_ai(int prev_nb_trous);
 
+    void send_score();
+    void send_seed();
 
 public slots:
     virtual void start();
     virtual void new_tick();
     void pauseGame();
+    void openServer();
+    void joinServer();
 
+    void receivedData();
+    void joined();
+    void disconnect();
+    void socketError(QAbstractSocket::SocketError error);
 
 protected :
     /*  éléments qui peuvent être modifiés en cours de partie */
@@ -42,8 +51,10 @@ protected :
         iter = 0,   //nombre de rafraichissement de la fenetre - réinitialisé lorsque le compteur atteint numDiff
         diff = 1,   //difficulté de jeu
         numDiff,    //nombre de rafraichissement de l'image avant de descendre une pièce automatiquement
-        nombrePiece = 1; //nombre de pieces créées
+        nombrePiece = 1, //nombre de pieces créées
+        scoreAdvValue = 0; //score adverse
 
+    QString ip_address;
     std::vector<int> ai_move; //Mouvements que va suivre l'ai : -1, 0, 1 pour gauche, tourner et droite
     int i_move = 0;     //Indice du prochain movement dans le vecteur ci dessus.
     int iter_ai = 0;    //Comme l'autre iter, mais pour les mouvements de l'ai
@@ -52,10 +63,13 @@ protected :
 
     bool    enJeu = false,//faux tant que le timer n'est pas initialisé, évite de l'activer plusieurs fois
             pauseActive = false,
-            finPartie = false;//faux tant que la partie n'est pas finie
+            finPartie = false,
+            host=false,
+            multi=false;//faux tant que la partie n'est pas finie
     afficheur* score;
     afficheur* nbLigne;
     afficheur* difficulte;
+    afficheur* scoreAdverse;
     tableau* tab; tableau* buff;
     piece pieceActive; piece buffer[2];
     QGraphicsRectItem* pieceAffichees[220];
@@ -63,6 +77,10 @@ protected :
     QGraphicsTextItem* inGameText;
     QGraphicsRectItem* inGameTextZone;
     QGraphicsScene* scene;
+
+    Serveur* server;
+    QTcpSocket *socket;
+    quint16 messageSize;
 };
 
 #endif // JEU_H
